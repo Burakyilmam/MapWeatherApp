@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="MapWeatherApp.API/MapWeatherApp.API.csproj" />
+  <Project Path="MapWeatherApp.MVC/MapWeatherApp.MVC.csproj" />
+</Solution>
