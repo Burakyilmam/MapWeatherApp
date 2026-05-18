@@ -1,5 +1,5 @@
 ﻿import { GetMap } from './map.js';
-export function makeDraggablePopup(popup) {
+export function MakeDraggablePopup(popup) {
 
     const map = GetMap();
     if (!map) return;
@@ -19,7 +19,7 @@ export function makeDraggablePopup(popup) {
     });
 }
 
-export function makeDraggableControl(div) {
+export function MakeDraggableControl(div) {
 
     const draggable = new L.Draggable(div);
     draggable.enable();

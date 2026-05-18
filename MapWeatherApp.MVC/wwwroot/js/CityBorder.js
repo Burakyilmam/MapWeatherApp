@@ -1,7 +1,13 @@
-﻿import { GetMap } from './Map.js';
-import { GetColorByTemperature } from './BorderColor.js';
+﻿import { GetMap } from "./Map.js";
+import { GetColorByTemperature }
+    from "./BorderColor.js";
 
 let cityLayer = null;
+
+export function GetCityLayer() {
+    return cityLayer;
+}
+
 
 export async function TurkeyGeoJsonDatas() {
 
@@ -9,196 +15,84 @@ export async function TurkeyGeoJsonDatas() {
 
     if (!map) return;
 
-    const geoUrl =
-        "https://raw.githubusercontent.com/cihadturhan/tr-geojson/master/geo/tr-cities-utf8.json";
+    const weatherResponse =
+        await fetch(
+            "https://localhost:7271/api/weather/latest"
+        );
 
-    try {
+    const weatherData =
+        await weatherResponse.json();
 
-        // Weather API
-        const weatherResponse =
-            await fetch(
-                "https://localhost:7271/api/weather/latest"
-            );
+    const geoResponse =
+        await fetch(
+            "https://raw.githubusercontent.com/cihadturhan/tr-geojson/master/geo/tr-cities-utf8.json"
+        );
 
-        const weatherData =
-            await weatherResponse.json();
+    const geoData =
+        await geoResponse.json();
 
-        // GeoJSON
-        const geoResponse =
-            await fetch(geoUrl);
+    if (cityLayer) {
+        map.removeLayer(cityLayer);
+    }
 
-        const geoData =
-            await geoResponse.json();
-
-        if (cityLayer) {
-            map.removeLayer(cityLayer);
-        }
-
-        cityLayer = L.geoJSON(geoData, {
+    cityLayer =
+        L.geoJSON(geoData, {
 
             style: () => ({
                 color: "#555",
                 weight: 1,
-                fill: true,
-                fillOpacity: 0.5
+                fillOpacity: 0.7
             }),
 
-            onEachFeature: function (feature, layer) {
+            onEachFeature:
+                function (feature, layer) {
 
-                const cityName = feature.properties.name;
+                    const cityName = 
+                        feature.properties.name;
 
-                const weather = weatherData.find(x => x.city === cityName);
+                    const weather =
+                        weatherData.find(
+                            x => x.city === cityName
+                        );
 
-                if (!weather) return;
+                    if (!weather) return;
 
-                // sıcaklığa göre renk
-                layer.setStyle({
-                    fillColor:
-                        GetColorByTemperature(weather.temperature)
-                });
+                    layer._weatherData = weather;
 
-                // tooltip
-                layer.bindTooltip(`
-                    
-                    <div style="
-                        font-family:Arial;
-                        min-width:180px;
-                    ">
+                    layer.setStyle({
 
-                        <div style="
-                            font-weight:bold;
-                            font-size:15px;
-                            margin-bottom:6px;
-                        ">
+                        fillColor:
+                            GetColorByTemperature(
+                                weather.temperature
+                            )
+                    });
+
+                    layer.bindTooltip(`
+
+                    <div>
+
+                        <b>
                             ${weather.city}
-                        </div>
+                        </b>
 
-                        <div style="
-                            display:flex;
-                            align-items:center;
-                            gap:8px;
-                        ">
+                        <br/>
 
-                            <img
-                                src="https://openweathermap.org/img/wn/${weather.conditionIcon}@2x.png"
-                                width="42"
-                            />
-
-                            <div>
-
-                                <div>
-                                     ${weather.temperature.toFixed(1)} °C
-                                </div>
-
-                                <div>
-                                    ${weather.feelsLike.toFixed(1)} °C
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div style="margin-top:6px;">
-                            ${weather.conditionDescription}
-                        </div>
+                        🌡️
+                        ${weather.temperature} °C
 
                     </div>
 
                 `);
-
-                // hover
-                layer.on('mouseover', () => {
-
-                    layer.setStyle({
-                        weight: 3
-                    });
-
-                });
-
-                layer.on('mouseout', () => {
-
-                    layer.setStyle({
-                        weight: 1
-                    });
-
-                });
-
-                // popup
-                layer.on('click', () => {
-
-                    layer.bindPopup(`
-
-                        <div style="
-                            text-align:center;
-                            min-width:220px;
-                        ">
-
-                            <h5>
-                                ${weather.city}
-                            </h5>
-
-                            <img
-                                src="https://openweathermap.org/img/wn/${weather.conditionIcon}@2x.png"
-                                width="80"
-                            />
-
-                            <hr/>
-
-                            <p>
-                                ${weather.temperature.toFixed(1)} °C
-                            </p>
-
-                            <p>
-                                ${weather.feelsLike.toFixed(1)} °C
-                            </p>
-
-                            <p>
-                                ${weather.humidity}%
-                            </p>
-
-                            <p>
-                                ${weather.windSpeed} m/s
-                            </p>
-
-                            <p>
-                                ${weather.windDegree}°
-                            </p>
-
-                            <p>
-                                ${weather.cloudiness}%
-                            </p>
-
-                            <p>
-                                ${weather.visibility} m
-                            </p>
-
-                            <p>
-                                ${weather.conditionDescription}
-                            </p>
-
-                            <hr/>
-
-                            <small>
-                                Güncelleme: ${new Date(weather.updated).toLocaleString("tr-TR")}
-                            </small>
-
-                        </div>
-
-                    `).openPopup();
-
-                });
-            }
+                }
 
         }).addTo(map);
 
-        map.fitBounds(cityLayer.getBounds());
+    if (!window.mapInitialized) {
 
-    }
-    catch (err) {
-
-        console.error(
-            "GeoJSON / Weather yüklenemedi",
-            err
+        map.fitBounds(
+            cityLayer.getBounds()
         );
+
+        window.mapInitialized = true;
     }
 }

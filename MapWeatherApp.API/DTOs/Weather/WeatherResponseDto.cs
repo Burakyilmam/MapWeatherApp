@@ -10,6 +10,8 @@ namespace MapWeatherApp.API.DTOs.Weather
         [JsonPropertyName("wind")]
         public WindDto Wind { get; set; }
 
+        public RainDto? Rain { get; set; }
+
         [JsonPropertyName("clouds")]
         public CloudDto Clouds { get; set; }
 

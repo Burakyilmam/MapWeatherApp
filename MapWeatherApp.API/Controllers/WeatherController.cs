@@ -40,8 +40,8 @@ namespace MapWeatherApp.API.Controllers
             var data = await _context.Weathers
                 .Include(x => x.City)
                 .Where(x =>
-                    latestWeatherIds.Contains(x.Id) &&
-                    x.RecordedAt >= DateTime.Now.AddMinutes(-30))
+                    latestWeatherIds.Contains(x.Id) && x.RecordedAt >= DateTime.Now.AddHours(-2))
+                //x.RecordedAt >= DateTime.Now.AddMinutes(-30))
                 .Select(x => new
                 {
                     city = x.City.Name,
@@ -65,6 +65,8 @@ namespace MapWeatherApp.API.Controllers
                     conditionMain = x.ConditionMain,
                     conditionDescription = x.ConditionDescription,
                     conditionIcon = x.ConditionIcon,
+
+                    rainVolume = x.RainVolume,
 
                     updated = x.RecordedAt
                 })

@@ -34,7 +34,7 @@ builder.Services.AddCors(options =>
                   .AllowAnyMethod();
         });
 });
-builder.Services.AddHostedService<WeatherBackgroundService>();
+//builder.Services.AddHostedService<WeatherBackgroundService>();
 
 var app = builder.Build();
 

@@ -1,8 +1,12 @@
 ﻿import { CreateMap } from './Map.js';
 import { TurkeyGeoJsonDatas } from './CityBorder.js';
+import { AddLegend } from './Legend.js';
+import { AddMapMode } from './MapMode.js';
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
 
     CreateMap(39.0, 35.0, 4, 18);
-    TurkeyGeoJsonDatas();
+    await TurkeyGeoJsonDatas();
+    AddLegend();
+    AddMapMode();
 });
