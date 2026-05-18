@@ -16,7 +16,7 @@ namespace MapWeatherApp.MVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var data = await _weatherService.GetAllWeatherAsync();
+            var data = await _weatherService.GetLatestWeatherAsync();
             return View(data);
         }
     }

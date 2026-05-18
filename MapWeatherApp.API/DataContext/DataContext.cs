@@ -1,5 +1,4 @@
-﻿using MapWeatherApp.API.Entity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace MapWeatherApp.API.AppDbContext
 {
@@ -12,12 +11,6 @@ namespace MapWeatherApp.API.AppDbContext
 
         public DbSet<City> Cities { get; set; }
 
-        public DbSet<CurrentWeather> CurrentWeathers { get; set; }
-
-        public DbSet<ForecastDaily> ForecastDailies { get; set; }
-
-        public DbSet<ForecastHourly> ForecastHourlies { get; set; }
-
-        public DbSet<WeatherHistory> WeatherHistories { get; set; }
+        public DbSet<Weather> Weathers { get; set; }
     }
 }

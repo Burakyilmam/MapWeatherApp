@@ -1,6 +1,8 @@
 ﻿import { GetMap } from './Map.js';
 import { GetColorByTemperature } from './BorderColor.js';
 
+let cityLayer = null;
+
 export async function TurkeyGeoJsonDatas() {
 
     const map = GetMap();
@@ -12,13 +14,25 @@ export async function TurkeyGeoJsonDatas() {
 
     try {
 
-        // API'den weather dataları çek
-        const weatherResponse = await fetch("https://localhost:7271/api/weather/all");
-        const weatherData = await weatherResponse.json();
+        // Weather API
+        const weatherResponse =
+            await fetch(
+                "https://localhost:7271/api/weather/latest"
+            );
 
-        // GeoJSON çek
-        const geoResponse = await fetch(geoUrl);
-        const geoData = await geoResponse.json();
+        const weatherData =
+            await weatherResponse.json();
+
+        // GeoJSON
+        const geoResponse =
+            await fetch(geoUrl);
+
+        const geoData =
+            await geoResponse.json();
+
+        if (cityLayer) {
+            map.removeLayer(cityLayer);
+        }
 
         cityLayer = L.geoJSON(geoData, {
 
@@ -33,70 +47,90 @@ export async function TurkeyGeoJsonDatas() {
 
                 const cityName = feature.properties.name;
 
-                // API'deki şehri bul
                 const weather = weatherData.find(x => x.city === cityName);
 
                 if (!weather) return;
 
                 // sıcaklığa göre renk
                 layer.setStyle({
-                    fillColor: GetColorByTemperature(
-                        weather.temperature
-                    )
+                    fillColor:
+                        GetColorByTemperature(weather.temperature)
                 });
 
                 // tooltip
                 layer.bindTooltip(`
-                    <div style="font-family:Arial;">
+                    
+                    <div style="
+                        font-family:Arial;
+                        min-width:180px;
+                    ">
 
-                        <div style="font-weight:bold;">
+                        <div style="
+                            font-weight:bold;
+                            font-size:15px;
+                            margin-bottom:6px;
+                        ">
                             ${weather.city}
                         </div>
 
                         <div style="
                             display:flex;
                             align-items:center;
-                            gap:6px;
-                            margin-top:5px;
+                            gap:8px;
                         ">
 
                             <img
-                                src="https:${weather.icon}"
-                                width="28"
+                                src="https://openweathermap.org/img/wn/${weather.conditionIcon}@2x.png"
+                                width="42"
                             />
 
-                            <span>
-                                ${weather.temperature} °C
-                            </span>
+                            <div>
+
+                                <div>
+                                     ${weather.temperature.toFixed(1)} °C
+                                </div>
+
+                                <div>
+                                    ${weather.feelsLike.toFixed(1)} °C
+                                </div>
+
+                            </div>
+
                         </div>
 
-                        <div style="margin-top:4px;">
-                            ${weather.condition}
+                        <div style="margin-top:6px;">
+                            ${weather.conditionDescription}
                         </div>
 
                     </div>
+
                 `);
 
-                // hover effect
+                // hover
                 layer.on('mouseover', () => {
+
                     layer.setStyle({
                         weight: 3
                     });
+
                 });
 
                 layer.on('mouseout', () => {
+
                     layer.setStyle({
                         weight: 1
                     });
+
                 });
 
-                // click popup
+                // popup
                 layer.on('click', () => {
 
                     layer.bindPopup(`
+
                         <div style="
                             text-align:center;
-                            min-width:200px;
+                            min-width:220px;
                         ">
 
                             <h5>
@@ -104,27 +138,52 @@ export async function TurkeyGeoJsonDatas() {
                             </h5>
 
                             <img
-                                src="https:${weather.icon}"
-                                width="64"
+                                src="https://openweathermap.org/img/wn/${weather.conditionIcon}@2x.png"
+                                width="80"
                             />
 
+                            <hr/>
+
                             <p>
-                                🌡️ ${weather.temperature}°C
+                                ${weather.temperature.toFixed(1)} °C
                             </p>
 
                             <p>
-                                💨 ${weather.windSpeed} km/s
+                                ${weather.feelsLike.toFixed(1)} °C
                             </p>
 
                             <p>
-                                💧 ${weather.humidity}%
+                                ${weather.humidity}%
                             </p>
 
                             <p>
-                                ${weather.condition}
+                                ${weather.windSpeed} m/s
                             </p>
+
+                            <p>
+                                ${weather.windDegree}°
+                            </p>
+
+                            <p>
+                                ${weather.cloudiness}%
+                            </p>
+
+                            <p>
+                                ${weather.visibility} m
+                            </p>
+
+                            <p>
+                                ${weather.conditionDescription}
+                            </p>
+
+                            <hr/>
+
+                            <small>
+                                Güncelleme: ${new Date(weather.updated).toLocaleString("tr-TR")}
+                            </small>
 
                         </div>
+
                     `).openPopup();
 
                 });
@@ -137,6 +196,9 @@ export async function TurkeyGeoJsonDatas() {
     }
     catch (err) {
 
-        console.error("GeoJSON / Weather yüklenemedi", err);
+        console.error(
+            "GeoJSON / Weather yüklenemedi",
+            err
+        );
     }
 }

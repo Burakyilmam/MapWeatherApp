@@ -1,4 +1,5 @@
 ﻿using MapWeatherApp.MVC.DTOs;
+using System.Text.Json;
 
 namespace MapWeatherApp.MVC.Services
 {
@@ -11,14 +12,21 @@ namespace MapWeatherApp.MVC.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<WeatherInfo>> GetAllWeatherAsync()
+        public async Task<List<WeatherInfoDto>>GetLatestWeatherAsync()
         {
-            var response = await _httpClient.GetFromJsonAsync<List<WeatherInfo>>("https://localhost:7271/api/weather/all");
-            if (response == null)
+            var response = await _httpClient.GetAsync("api/weather/latest");
+
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
             {
-                throw new Exception("Failed to retrieve weather data.");
-            }
-            return response;
+                PropertyNameCaseInsensitive = true
+            };
+
+            return JsonSerializer.Deserialize<List<WeatherInfoDto>>(json, options)!;
         }
+
     }
 }

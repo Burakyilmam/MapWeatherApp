@@ -1,6 +1,6 @@
 ﻿namespace MapWeatherApp.MVC.DTOs
 {
-    public class WeatherInfo
+    public class WeatherInfoDto
     {
         public string City { get; set; }
 
@@ -16,11 +16,21 @@
 
         public int Humidity { get; set; }
 
+        public int Pressure { get; set; }
+
         public double WindSpeed { get; set; }
 
-        public string Condition { get; set; }
+        public int WindDegree { get; set; }
 
-        public string Icon { get; set; }
+        public int Cloudiness { get; set; }
+
+        public int Visibility { get; set; }
+
+        public string ConditionMain { get; set; }
+
+        public string ConditionDescription { get; set; }
+
+        public string ConditionIcon { get; set; }
 
         public DateTime Updated { get; set; }
     }

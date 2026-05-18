@@ -1,5 +1,6 @@
 using MapWeatherApp.API;
 using MapWeatherApp.API.AppDbContext;
+using MapWeatherApp.API.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,14 +14,12 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 builder.Services.AddHttpClient("WeatherApi", client =>
 {
-    client.BaseAddress =
-        new Uri(builder.Configuration["WeatherApi:BaseUrl"]!);
+    client.BaseAddress = new Uri(builder.Configuration["WeatherApi:BaseUrl"]!);
 });
 
 builder.Services.AddScoped<WeatherService>();
@@ -35,6 +34,7 @@ builder.Services.AddCors(options =>
                   .AllowAnyMethod();
         });
 });
+builder.Services.AddHostedService<WeatherBackgroundService>();
 
 var app = builder.Build();
 
