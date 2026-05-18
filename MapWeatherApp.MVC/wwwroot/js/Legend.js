@@ -85,6 +85,25 @@ export function AddLegend() {
         content.style.padding =
             "8px";
 
+        // TITLE
+        const titleElement =
+            document.createElement("div");
+
+        Object.assign(titleElement.style, {
+
+            textAlign: "center",
+
+            fontWeight: "700",
+
+            fontSize: "14px",
+
+            marginTop: "4px",
+
+            marginBottom: "8px",
+
+            color: "#222"
+        });
+
         // TOGGLE BAR
         const toggleBar =
             document.createElement("div");
@@ -159,10 +178,10 @@ export function AddLegend() {
 
             let ranges = [];
 
+            let title = "";
+
             const currentMapMode =
                 GetMapMode();
-
-            let title = "";
 
             // TEMPERATURE
             if (
@@ -170,7 +189,8 @@ export function AddLegend() {
                 "temperature"
             ) {
 
-                title = "🌡️ Sıcaklık";
+                title =
+                    "🌡️ Sıcaklık";
 
                 ranges = [
 
@@ -254,7 +274,8 @@ export function AddLegend() {
                 "wind"
             ) {
 
-                title = "💨 Rüzgar";
+                title =
+                    "💨 Rüzgar";
 
                 ranges = [
 
@@ -296,7 +317,8 @@ export function AddLegend() {
                 "rain"
             ) {
 
-                title = "🌧️ Yağış";
+                title =
+                    "🌧️ Yağış";
 
                 ranges = [
 
@@ -332,20 +354,8 @@ export function AddLegend() {
                 ];
             }
 
-            const titleHtml = `
-
-                <div style="
-                    text-align:center;
-                    font-weight:700;
-                    font-size:14px;
-                    margin-bottom:8px;
-                    color:#222;
-                ">
-
-                    ${title}
-
-                </div>
-            `;
+            titleElement.innerHTML =
+                title;
 
             // sıcaklık özel 2 kolon
             if (
@@ -353,7 +363,7 @@ export function AddLegend() {
                 "temperature"
             ) {
 
-                content.innerHTML = titleHtml + `
+                content.innerHTML = `
 
                     <div style="
                         display:flex;
@@ -413,7 +423,6 @@ export function AddLegend() {
             else {
 
                 content.innerHTML =
-                    titleHtml +
 
                     ranges.map(r => `
 
@@ -439,6 +448,8 @@ export function AddLegend() {
         renderLegend();
 
         div.appendChild(toggleBar);
+
+        div.appendChild(titleElement);
 
         div.appendChild(content);
 
