@@ -2,6 +2,7 @@
 import { TurkeyGeoJsonDatas } from './CityBorder.js';
 import { AddLegend } from './Legend.js';
 import { AddMapMode } from './MapMode.js';
+import { AddCitySearch } from './Search.js';
 
 document.addEventListener("DOMContentLoaded", async function () {
 
@@ -9,4 +10,5 @@ document.addEventListener("DOMContentLoaded", async function () {
     await TurkeyGeoJsonDatas();
     AddLegend();
     AddMapMode();
+    AddCitySearch();
 });

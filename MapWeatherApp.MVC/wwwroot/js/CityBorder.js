@@ -1,6 +1,5 @@
 ﻿import { GetMap } from "./Map.js";
-import { GetColorByTemperature }
-    from "./BorderColor.js";
+import { GetColorByTemperature } from "./BorderColor.js";
 
 let cityLayer = null;
 
@@ -8,6 +7,23 @@ export function GetCityLayer() {
     return cityLayer;
 }
 
+export function GetCityNames() {
+
+    if (!cityLayer) return [];
+
+    const cityNames = [];
+
+    cityLayer.eachLayer(layer => {
+
+        const cityName = layer.feature?.properties?.name;
+
+        if (cityName) {
+            cityNames.push(cityName);
+        }
+    });
+
+    return cityNames;
+}
 
 export async function TurkeyGeoJsonDatas() {
 
