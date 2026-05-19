@@ -84,7 +84,8 @@ namespace MapWeatherApp.API
                 ConditionDescription = weatherData.Weather[0].Description,
                 ConditionIcon = weatherData.Weather[0].Icon,
                 Cloudiness = weatherData.Clouds.All,
-                RainVolume = weatherData.Rain.OneHour,
+                RainVolume = weatherData.Rain?.OneHour ?? 0,
+                SnowVolume = weatherData.Snow?.OneHour ?? 0,
                 RecordedAt = DateTime.Now
             };
 

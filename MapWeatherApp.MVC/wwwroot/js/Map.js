@@ -9,6 +9,7 @@ export function CreateMap(lat, lng, zoom, maxZoom) {
     }
 
     const mapElement = document.getElementById('map');
+
     if (!mapElement) return null;
 
     const openstreetmap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{ maxZoom: maxZoom });

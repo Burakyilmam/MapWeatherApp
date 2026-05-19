@@ -12,6 +12,8 @@ namespace MapWeatherApp.API.DTOs.Weather
 
         public RainDto? Rain { get; set; }
 
+        public SnowDto? Snow { get; set; }
+
         [JsonPropertyName("clouds")]
         public CloudDto Clouds { get; set; }
 

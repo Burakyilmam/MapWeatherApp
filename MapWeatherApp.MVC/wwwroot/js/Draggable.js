@@ -2,9 +2,11 @@
 export function MakeDraggablePopup(popup) {
 
     const map = GetMap();
+
     if (!map) return;
 
     const container = popup.getElement();
+
     if (!container) return;
 
     const draggable = new L.Draggable(container);
@@ -22,6 +24,7 @@ export function MakeDraggablePopup(popup) {
 export function MakeDraggableControl(div) {
 
     const draggable = new L.Draggable(div);
+
     draggable.enable();
 
     L.DomEvent.disableClickPropagation(div);

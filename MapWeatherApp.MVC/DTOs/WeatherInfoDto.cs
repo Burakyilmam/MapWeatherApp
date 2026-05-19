@@ -26,6 +26,10 @@
 
         public int Visibility { get; set; }
 
+        public double RainVolume { get; set; }
+
+        public double SnowVolume { get; set; }
+
         public string ConditionMain { get; set; }
 
         public string ConditionDescription { get; set; }

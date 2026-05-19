@@ -20,16 +20,14 @@ export async function TurkeyGeoJsonDatas() {
             "https://localhost:7271/api/weather/latest"
         );
 
-    const weatherData =
-        await weatherResponse.json();
+    const weatherData = await weatherResponse.json();
 
     const geoResponse =
         await fetch(
             "https://raw.githubusercontent.com/cihadturhan/tr-geojson/master/geo/tr-cities-utf8.json"
         );
 
-    const geoData =
-        await geoResponse.json();
+    const geoData = await geoResponse.json();
 
     if (cityLayer) {
         map.removeLayer(cityLayer);
@@ -47,13 +45,9 @@ export async function TurkeyGeoJsonDatas() {
             onEachFeature:
                 function (feature, layer) {
 
-                    const cityName = 
-                        feature.properties.name;
+                    const cityName = feature.properties.name;
 
-                    const weather =
-                        weatherData.find(
-                            x => x.city === cityName
-                        );
+                    const weather = weatherData.find(x => x.city === cityName);
 
                     if (!weather) return;
 
@@ -62,9 +56,7 @@ export async function TurkeyGeoJsonDatas() {
                     layer.setStyle({
 
                         fillColor:
-                            GetColorByTemperature(
-                                weather.temperature
-                            )
+                            GetColorByTemperature(weather.temperature)
                     });
 
                     layer.bindTooltip(`
@@ -89,9 +81,7 @@ export async function TurkeyGeoJsonDatas() {
 
     if (!window.mapInitialized) {
 
-        map.fitBounds(
-            cityLayer.getBounds()
-        );
+        map.fitBounds(cityLayer.getBounds());
 
         window.mapInitialized = true;
     }
