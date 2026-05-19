@@ -2,9 +2,15 @@
 import { GetColorByTemperature } from "./BorderColor.js";
 
 let cityLayer = null;
+let weatherData = [];
 
 export function GetCityLayer() {
     return cityLayer;
+}
+
+export function GetWeatherData() {
+
+    return weatherData;
 }
 
 export function GetCityNames() {
@@ -36,7 +42,7 @@ export async function TurkeyGeoJsonDatas() {
             "https://localhost:7271/api/weather/latest"
         );
 
-    const weatherData = await weatherResponse.json();
+    weatherData = await weatherResponse.json();
 
     const geoResponse =
         await fetch(

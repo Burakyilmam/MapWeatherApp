@@ -3,6 +3,7 @@ import { TurkeyGeoJsonDatas } from './CityBorder.js';
 import { AddLegend } from './Legend.js';
 import { AddMapMode } from './MapMode.js';
 import { AddCitySearch } from './Search.js';
+import { AddDailyLeaderPanel } from './DailyLeader.js';
 
 document.addEventListener("DOMContentLoaded", async function () {
 
@@ -11,4 +12,5 @@ document.addEventListener("DOMContentLoaded", async function () {
     AddLegend();
     AddMapMode();
     AddCitySearch();
+    AddDailyLeaderPanel();
 });

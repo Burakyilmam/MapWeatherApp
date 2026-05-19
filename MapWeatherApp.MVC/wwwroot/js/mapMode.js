@@ -296,3 +296,17 @@ export function SetMapMode(mode) {
         legendControl._container._renderLegend();
     }
 }
+
+export function RefreshMapModeButtons() {
+
+    if (
+        modeControlInstance &&
+        modeControlInstance._container &&
+        modeControlInstance._container._updateButtons
+    ) {
+
+        modeControlInstance
+            ._container
+            ._updateButtons();
+    }
+}
