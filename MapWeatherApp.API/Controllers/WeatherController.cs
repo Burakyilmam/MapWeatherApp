@@ -40,7 +40,7 @@ namespace MapWeatherApp.API.Controllers
             var data = await _context.Weathers
                 .Include(x => x.City)
                 .Where(x =>
-                    latestWeatherIds.Contains(x.Id) && x.RecordedAt >= DateTime.Now.AddMinutes(-30))
+                    latestWeatherIds.Contains(x.Id) /*&& x.RecordedAt >= DateTime.Now.AddMinutes(-30)*/)
                 .Select(x => new
                 {
                     city = x.City.Name,

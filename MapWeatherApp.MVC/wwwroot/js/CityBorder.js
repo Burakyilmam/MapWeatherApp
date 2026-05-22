@@ -1,5 +1,6 @@
 ﻿import { GetMap } from "./Map.js";
 import { GetColorByTemperature } from "./BorderColor.js";
+import { OpenWeatherPanel } from "./WeatherPanel.js";
 
 let cityLayer = null;
 let weatherData = [];
@@ -97,6 +98,11 @@ export async function TurkeyGeoJsonDatas() {
                     </div>
 
                 `);
+
+                    layer.on("click", function (e) {
+
+                        OpenWeatherPanel(weather, e.latlng);
+                    });
                 }
 
         }).addTo(map);

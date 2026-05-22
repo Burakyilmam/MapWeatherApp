@@ -1,0 +1,592 @@
+﻿#weatherDetailPanel {
+    position: absolute;
+    width: 980px;
+    z-index: 99999;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.96);
+    transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.22s ease;
+}
+
+    #weatherDetailPanel.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: scale(1);
+    }
+
+.weather-dashboard {
+    position: relative;
+    width: 100%;
+    padding: 16px;
+    border-radius: 28px;
+    color: white;
+    background: linear-gradient(135deg, rgba(12, 19, 33, 0.96), rgba(20, 29, 47, 0.93));
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.weather-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+    .weather-close-btn:hover {
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+.weather-main-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr 0.9fr;
+    gap: 14px;
+}
+
+.wp-left-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 24px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 410px;
+    box-sizing: border-box;
+}
+
+.wp-location-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.wp-city-name {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.wp-dropdown-arrow {
+    font-size: 11px;
+    opacity: 0.4;
+    margin-left: 2px;
+}
+
+.wp-country-name {
+    font-size: 14px;
+    opacity: 0.5;
+    margin-top: 2px;
+    padding-left: 20px;
+}
+
+.wp-center-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -10px;
+}
+
+.wp-big-icon {
+    width: 120px;
+    height: 120px;
+    margin-bottom: -5px;
+}
+
+.wp-condition-desc {
+    font-size: 18px;
+    opacity: 0.85;
+    margin-bottom: 2px;
+}
+
+.wp-main-temp {
+    font-size: 80px;
+    font-weight: 200;
+    line-height: 1;
+    letter-spacing: -2px;
+}
+
+.wp-celsius {
+    font-size: 36px;
+    font-weight: 300;
+    vertical-align: super;
+}
+
+.wp-feels-like {
+    font-size: 14px;
+    opacity: 0.6;
+    margin-top: 4px;
+}
+
+.wp-umbrella-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.25);
+}
+
+.wp-middle-column {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.wp-temp-range-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 24px;
+    padding: 16px;
+}
+
+.wp-temp-range-text {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+}
+
+.wp-extreme-val span {
+    opacity: 0.6;
+}
+
+.wp-extreme-val b {
+    font-weight: 700;
+    margin-left: 2px;
+}
+
+.wp-slider-track {
+    position: relative;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+    margin: 14px 0 8px 0;
+}
+
+.wp-slider-bar {
+    position: absolute;
+    left: 25%;
+    right: 30%;
+    height: 100%;
+    background: linear-gradient(to right, #6ec6ff, #ff8a65);
+    border-radius: 3px;
+}
+
+.wp-slider-dot {
+    position: absolute;
+    left: 52%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 6px white;
+}
+
+.wp-range-sub {
+    font-size: 11px;
+    opacity: 0.4;
+    text-align: center;
+}
+
+.wp-details-list-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 24px;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.wp-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 11px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 14px;
+}
+
+.wp-detail-label {
+    opacity: 0.65;
+    font-weight: 500;
+}
+
+.wp-detail-val {
+    font-weight: 600;
+}
+
+.wp-sub-dir {
+    font-size: 11px;
+    opacity: 0.4;
+    margin-left: 2px;
+}
+
+.no-border {
+    border-bottom: none !important;
+    padding-bottom: 0;
+}
+
+.wp-right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.wp-right-widget {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 24px;
+    padding: 16px;
+    min-height: 125px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-sizing: border-box;
+}
+
+.wp-widget-title {
+    font-size: 11px;
+    font-weight: 600;
+    opacity: 0.4;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+
+.wp-sun-arc-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+}
+
+.wp-sun-extremes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    z-index: 2;
+}
+
+.wp-sun-info-node {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sun-icon-svg {
+    font-size: 22px;
+}
+
+.sun-text-stack {
+    display: flex;
+    flex-direction: column;
+}
+
+.sun-label-title {
+    font-size: 10px;
+    opacity: 0.4;
+}
+
+.sun-time-value {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.text-right {
+    text-align: right;
+    flex-direction: row-reverse;
+}
+
+.wp-sun-arc-rail {
+    position: relative;
+    width: 100%;
+    height: 32px;
+    margin-top: -4px;
+}
+
+.wp-arc-svg-line {
+    width: 100%;
+    height: 100%;
+}
+
+.wp-sun-moving-dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #ffb74d;
+    border-radius: 50%;
+    box-shadow: 0 0 12px #ffb74d, 0 0 4px #ffffff;
+    transition: left 1s ease-in-out, bottom 1s ease-in-out;
+    z-index: 5;
+}
+
+.wp-speedo-gauge-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    margin-top: 5px;
+}
+
+.wp-speedo-dial {
+    position: relative;
+    width: 110px;
+    height: 58px;
+    border-radius: 110px 110px 0 0;
+    border-top: 3px solid rgba(255, 255, 255, 0.12);
+    border-left: 3px solid rgba(255, 255, 255, 0.12);
+    border-right: 3px solid rgba(255, 255, 255, 0.12);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.02));
+    overflow: hidden;
+}
+
+.wp-speedo-needle {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    height: 48px;
+    background: linear-gradient(to top, #ff3d00, #ff9100);
+    transform-origin: bottom center;
+    border-radius: 2px;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 3;
+}
+
+.wp-speedo-center {
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 14px;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    z-index: 4;
+}
+
+.wp-speedo-data {
+    text-align: center;
+    margin-top: 6px;
+}
+
+.wp-speedo-value {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.wp-speedo-unit {
+    font-size: 12px;
+    opacity: 0.5;
+    font-weight: 400;
+}
+
+.wp-speedo-status {
+    font-size: 10px;
+    font-weight: 600;
+    color: #4caf50;
+    letter-spacing: 1px;
+    margin-top: 1px;
+}
+
+.wp-wind-compass-widget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.wp-compass-ring {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.01);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.wp-compass-dial-ticks {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    pointer-events: none;
+}
+
+.wp-compass-letter {
+    position: absolute;
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.n {
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ff3d00;
+}
+
+.s {
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.w {
+    left: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.e {
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.wp-compass-value-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.wind-speed-num {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: linear-gradient(to bottom, #ffffff, #e0e0e0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.wind-unit-text {
+    font-size: 10px;
+    font-weight: 500;
+    opacity: 0.5;
+}
+
+.wp-wind-compass-footer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 8px;
+    font-size: 11px;
+}
+
+.wind-compass-dir {
+    font-weight: 700;
+    color: #00e5ff;
+}
+
+.wind-compass-status {
+    font-weight: 600;
+    opacity: 0.5;
+}
+
+.wp-bottom-section {
+    margin-top: 14px;
+    padding: 12px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.wp-forecast-header {
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.8;
+    margin-bottom: 10px;
+}
+
+.wp-forecast-container {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+}
+
+    .wp-forecast-container::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .wp-forecast-container::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+
+.weather-forecast-day {
+    min-width: 78px;
+    flex: 1;
+    border-radius: 14px;
+    padding: 10px 4px;
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.weather-forecast-name {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.weather-forecast-date {
+    font-size: 10px;
+    opacity: 0.4;
+    margin-top: 1px;
+}
+
+.weather-forecast-icon {
+    width: 34px;
+    height: 34px;
+    margin: 2px 0;
+}
+
+.weather-forecast-temp {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.weather-forecast-min {
+    font-size: 11px;
+    opacity: 0.4;
+}
+
+.weather-forecast-rain {
+    font-size: 10px;
+    color: #6ec6ff;
+    margin-top: 4px;
+}
