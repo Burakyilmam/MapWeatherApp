@@ -38,5 +38,9 @@
 
     public double SnowVolume { get; set; }
 
+    public long Sunrise { get; set; }
+
+    public long Sunset { get; set; }
+
     public DateTime RecordedAt { get; set; }
 }

@@ -391,34 +391,24 @@ export function AddLegend() {
                 content.innerHTML = `
 
                     <div style="display:flex;gap:8px;justify-content:center;">
-
                         <div>
-
                             ${ranges.slice(0, 6).map(r => `
-
                                 <div class="legend-item">
-
                                     <div class="legend-box" style="background:${r.color}"> ${r.label}</div>
                                 </div>
 
                             `).join("")}
-
                         </div>
 
                         <div>
-
                             ${ranges.slice(6).map(r => `
-
                                 <div class="legend-item">
-
                                     <div
                                         class="legend-box" style="background:${r.color}">${r.label}</div>
                                 </div>
-
                             `).join("")}
 
                         </div>
-
                     </div>
                 `;
             }
@@ -427,14 +417,11 @@ export function AddLegend() {
                 content.innerHTML =
 
                     ranges.map(r => `
-
                         <div class="legend-item">
-
                             <div
                                 class="legend-box" style="background:${r.color}">${r.label}
                             </div>
                         </div>
-
                     `).join("");
             }
         }

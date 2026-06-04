@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MapWeatherApp.API.Migrations
 {
     /// <inheritdoc />
-    public partial class migration_1 : Migration
+    public partial class mig_0 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,6 +51,8 @@ namespace MapWeatherApp.API.Migrations
                     ConditionIcon = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RainVolume = table.Column<double>(type: "float", nullable: false),
                     SnowVolume = table.Column<double>(type: "float", nullable: false),
+                    Sunrise = table.Column<long>(type: "bigint", nullable: false),
+                    Sunset = table.Column<long>(type: "bigint", nullable: false),
                     RecordedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>

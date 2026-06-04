@@ -2,7 +2,7 @@
 {
     public static class CityDataHelper
     {
-        private static readonly Dictionary<string, CityInfo> CityData = new()
+        private static readonly Dictionary<string, CityInfo> CityData = new(StringComparer.OrdinalIgnoreCase)
         {
             { "Adana", new CityInfo { PlateCode = 1 } },
             { "Adıyaman", new CityInfo { PlateCode = 2 } },

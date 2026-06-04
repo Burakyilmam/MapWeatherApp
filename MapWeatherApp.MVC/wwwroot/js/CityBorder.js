@@ -1,17 +1,19 @@
 ﻿import { GetMap } from "./Map.js";
 import { GetColorByTemperature } from "./BorderColor.js";
 import { OpenWeatherPanel } from "./WeatherPanel.js";
+import { LoadWeatherData, GetWeatherData } from "./Weather.js";
 
 let cityLayer = null;
-let weatherData = [];
 
 export function GetCityLayer() {
     return cityLayer;
 }
 
-export function GetWeatherData() {
+export function mapGeoCityName(name) {
 
-    return weatherData;
+    const cityMap = { "Afyon": "Afyonkarahisar" };
+
+    return cityMap[name] || name;
 }
 
 export function GetCityNames() {
@@ -38,17 +40,11 @@ export async function TurkeyGeoJsonDatas() {
 
     if (!map) return;
 
-    const weatherResponse =
-        await fetch(
-            "https://localhost:7271/api/weather/latest"
-        );
+    await LoadWeatherData();
 
-    weatherData = await weatherResponse.json();
+    const weatherData = GetWeatherData();
 
-    const geoResponse =
-        await fetch(
-            "https://raw.githubusercontent.com/cihadturhan/tr-geojson/master/geo/tr-cities-utf8.json"
-        );
+    const geoResponse = await fetch("https://raw.githubusercontent.com/cihadturhan/tr-geojson/master/geo/tr-cities-utf8.json");
 
     const geoData = await geoResponse.json();
 
@@ -56,56 +52,98 @@ export async function TurkeyGeoJsonDatas() {
         map.removeLayer(cityLayer);
     }
 
-    cityLayer =
-        L.geoJSON(geoData, {
+    cityLayer = L.geoJSON(geoData, {
 
-            style: () => ({
-                color: "#555",
-                weight: 1,
-                fillOpacity: 0.7
-            }),
+        style: () => ({
+            color: "#555",
+            weight: 1,
+            fillOpacity: 0.7
+        }),
 
-            onEachFeature:
-                function (feature, layer) {
+        onEachFeature: function (feature, layer) {
 
-                    const cityName = feature.properties.name;
+            const cityName = mapGeoCityName(feature.properties.name);
 
-                    const weather = weatherData.find(x => x.city === cityName);
+            const weather = weatherData.find(x => x.city === cityName);
 
-                    if (!weather) return;
+            if (!weather) return;
 
-                    layer._weatherData = weather;
+            layer._weatherData = weather;
 
-                    layer.setStyle({
+            layer.setStyle({
+                fillColor: GetColorByTemperature(weather.temperature)
+            });
 
-                        fillColor:
-                            GetColorByTemperature(weather.temperature)
-                    });
+            layer.bindTooltip(
+                `
+    <div class="modern-weather-tooltip">
 
-                    layer.bindTooltip(`
+        <div class="mwt-city">
+            ${weather.city}
+        </div>
 
-                    <div>
+        <div class="mwt-status">
+            ${weather.conditionDescription}
+        </div>
 
-                        <b>
-                            ${weather.city}
-                        </b>
+        <img 
+            class="mwt-icon"
+            src="https://openweathermap.org/img/wn/${weather.conditionIcon}@2x.png"
+        />
 
-                        <br/>
+        <div class="mwt-temp">
+            ${weather.temperature.toFixed(1)}°
+        </div>
 
-                        🌡️
-                        ${weather.temperature} °C
+        <div class="mwt-feels">
+            Hissedilen: ${weather.feelsLike.toFixed(1)}°
+        </div>
 
-                    </div>
+        <div class="mwt-divider"></div>
 
-                `);
+        <div class="mwt-grid">
 
-                    layer.on("click", function (e) {
+            <div class="mwt-card">
+                <div class="mwt-label">💧 Nem</div>
+                <div class="mwt-value">%${weather.humidity}</div>
+            </div>
 
-                        OpenWeatherPanel(weather, e.latlng);
-                    });
+            <div class="mwt-card">
+                <div class="mwt-label">💨 Rüzgar</div>
+                <div class="mwt-value">
+                    ${(weather.windSpeed * 3.6).toFixed(0)} km/h
+                </div>
+            </div>
+
+            <div class="mwt-card">
+                <div class="mwt-label">☁️ Bulut</div>
+                <div class="mwt-value">%${weather.cloudiness}</div>
+            </div>
+
+            <div class="mwt-card">
+                <div class="mwt-label">🧭 Basınç</div>
+                <div class="mwt-value">${weather.pressure}</div>
+            </div>
+
+        </div>
+
+    </div>
+    `,
+                {
+                    sticky: true,
+                    direction: "top",
+                    opacity: 1,
+                    offset: [0, -10],
+                    className: "custom-weather-tooltip"
                 }
+            );
 
-        }).addTo(map);
+            layer.on("click", function (e) {
+                OpenWeatherPanel(weather, e.latlng);
+            });
+        }
+
+    }).addTo(map);
 
     if (!window.mapInitialized) {
 

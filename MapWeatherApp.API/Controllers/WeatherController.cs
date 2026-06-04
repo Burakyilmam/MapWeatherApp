@@ -29,21 +29,19 @@ namespace MapWeatherApp.API.Controllers
         [HttpGet("latest")]
         public async Task<IActionResult> GetLatestWeather()
         {
-            var latestWeatherIds = await _context.Weathers
-                .GroupBy(x => x.CityId)
+            var latestWeatherIds = await _context.Weathers.GroupBy(x => x.CityId)
                 .Select(g => g
                     .OrderByDescending(x => x.RecordedAt)
                     .Select(x => x.Id)
                     .First())
                 .ToListAsync();
 
-            var data = await _context.Weathers
-                .Include(x => x.City)
-                .Where(x =>
-                    latestWeatherIds.Contains(x.Id) /*&& x.RecordedAt >= DateTime.Now.AddMinutes(-30)*/)
+            var data = await _context.Weathers.Include(x => x.City).Where(x => latestWeatherIds.Contains(x.Id) /*&& x.RecordedAt >= DateTime.Now.AddMinutes(-30)*/)
                 .Select(x => new
                 {
                     city = x.City.Name,
+                    country = x.City.Country,
+
                     plateCode = x.City.PlateCode,
 
                     latitude = x.City.Latitude,
@@ -51,6 +49,9 @@ namespace MapWeatherApp.API.Controllers
 
                     temperature = x.Temperature,
                     feelsLike = x.FeelsLike,
+
+                    tempMin = x.TempMin,
+                    tempMax = x.TempMax,
 
                     humidity = x.Humidity,
                     pressure = x.Pressure,
@@ -60,6 +61,9 @@ namespace MapWeatherApp.API.Controllers
 
                     rainVolume = x.RainVolume,
                     snowVolume = x.SnowVolume,
+
+                    sunrise = x.Sunrise,
+                    sunset = x.Sunset,
 
                     cloudiness = x.Cloudiness,
                     visibility = x.Visibility,
@@ -74,6 +78,51 @@ namespace MapWeatherApp.API.Controllers
                 .ToListAsync();
 
             return Ok(data);
+        }
+
+        [HttpGet("{city}/history")]
+        public async Task<IActionResult> GetHistoryWeather(string city)
+        {
+            var history = await _context.Weathers
+                .Include(x => x.City)
+                .Where(x => x.City.Name == city)
+                .GroupBy(x => x.RecordedAt.Date)
+                .Where(g => g.Key < DateTime.Today)
+                .OrderByDescending(g => g.Key)
+                .Take(5)
+                .Select(g => new
+                {
+                    date = g.Key,
+
+                    avgTemperature = g.Average(x => x.Temperature),
+
+                    tempMin = g.Min(x => x.TempMin),
+
+                    tempMax = g.Max(x => x.TempMax),
+
+                    humidity = g.Average(x => x.Humidity),
+
+                    icon = g
+                        .OrderByDescending(x => x.RecordedAt)
+                        .Select(x => x.ConditionIcon)
+                        .FirstOrDefault(),
+
+                    description = g
+                        .OrderByDescending(x => x.RecordedAt)
+                        .Select(x => x.ConditionDescription)
+                        .FirstOrDefault()
+                })
+                .ToListAsync();
+
+            return Ok(history);
+        }
+
+        [HttpGet("{city}/forecast")]
+        public async Task<IActionResult> GetForecast(string city)
+        {
+            var result = await _weatherService.GetForecastAsync(city);
+
+            return Ok(result);
         }
     }
 }

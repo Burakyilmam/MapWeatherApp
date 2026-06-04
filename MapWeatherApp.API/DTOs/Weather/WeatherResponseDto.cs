@@ -14,6 +14,9 @@ namespace MapWeatherApp.API.DTOs.Weather
 
         public SnowDto? Snow { get; set; }
 
+        [JsonPropertyName("sys")]
+        public SysDto Sys { get; set; }
+
         [JsonPropertyName("clouds")]
         public CloudDto Clouds { get; set; }
 
@@ -28,5 +31,8 @@ namespace MapWeatherApp.API.DTOs.Weather
 
         [JsonPropertyName("dt")]
         public long Dt { get; set; }
+
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
     }
 }

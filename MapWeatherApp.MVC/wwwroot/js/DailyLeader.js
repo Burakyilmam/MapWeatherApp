@@ -2,14 +2,13 @@
 import { MakeDraggableControl } from "./Draggable.js";
 import { SetMapMode, RefreshMapModeButtons } from "./MapMode.js";
 import { FlyToCity } from "./Utility.js";
-import { GetWeatherData } from "./CityBorder.js";
+import { GetWeatherData } from "./Weather.js";
 
 let dailyInfoControl = null;
-let latestWeatherData = [];
 
 export function GetDailyLeaders() {
 
-    latestWeatherData = GetWeatherData();
+    const latestWeatherData = GetWeatherData();
 
     if (!latestWeatherData || latestWeatherData.length === 0) {
         return null;
@@ -191,7 +190,7 @@ export function AddDailyLeaderPanel() {
 
             if (stats) {
 
-                let leaderItems = [];
+                const leaderItems = [];
 
                 leaderItems.push(`
                     <div class="summary-item" data-city="${stats.hottest.city}" data-mode="temperature">
@@ -248,38 +247,16 @@ export function AddDailyLeaderPanel() {
                 `);
 
                 htmlContent += `
-
-                    <div style="
-                        display:grid;
-                        grid-template-columns:1fr 1fr;
-                        gap:10px;
-                        align-items:start;
-                    ">
-
-                        <div>
-                            ${leaderItems.slice(0, 5).join("")}
-                        </div>
-
-                        <div>
-                            ${leaderItems.slice(5).join("")}
-                        </div>
-
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start;">
+                        <div>${leaderItems.slice(0, 5).join("")}</div>
+                        <div>${leaderItems.slice(5).join("")}</div>
                     </div>
                 `;
             }
             else {
 
                 htmlContent += `
-
-                    <div style="
-                        text-align:center;
-                        opacity:0.7;
-                        padding:10px;
-                    ">
-
-                        Veri yükleniyor...
-
-                    </div>
+                    <div style="text-align:center;opacity:0.7;padding:10px;">Veri yükleniyor...</div>
                 `;
             }
 

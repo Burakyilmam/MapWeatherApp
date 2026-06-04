@@ -1,6 +1,7 @@
 ﻿import { GetMap } from './Map.js';
-import { GetCityLayer, GetCityNames } from './CityBorder.js';
+import { GetCityLayer, GetCityNames, mapGeoCityName } from './CityBorder.js';
 import { MakeDraggableControl } from "./Draggable.js";
+
 export function AddCitySearch() {
 
     const map = GetMap();
@@ -12,7 +13,10 @@ export function AddCitySearch() {
     if (!cityLayer) return;
 
     const SearchControl = L.Control.extend({
-        options: { position: 'topright' },
+
+        options: {
+            position: 'topright'
+        },
 
         onAdd: function () {
 
@@ -20,9 +24,19 @@ export function AddCitySearch() {
 
             div.innerHTML = `
                 <div class="search-box">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" placeholder="Şehir ara..." autocomplete="off" />
+
+                    <span class="search-icon">
+                        🔍
+                    </span>
+
+                    <input 
+                        type="text" 
+                        placeholder="Şehir ara..." 
+                        autocomplete="off" 
+                    />
+
                 </div>
+
                 <div class="autocomplete-list"></div>
             `;
 
@@ -30,6 +44,7 @@ export function AddCitySearch() {
             L.DomEvent.disableScrollPropagation(div);
 
             const input = div.querySelector('input');
+
             const list = div.querySelector('.autocomplete-list');
 
             let selectedIndex = -1;
@@ -37,31 +52,45 @@ export function AddCitySearch() {
             function showSuggestions(value) {
 
                 list.innerHTML = '';
+
                 selectedIndex = -1;
 
-                const cityNames = GetCityNames();
+                const cityNames =
+                    GetCityNames().map(name => mapGeoCityName(name));
 
                 if (!value || !cityNames || cityNames.length === 0) {
+
                     list.style.display = 'none';
+
                     return;
                 }
 
-                const matches = cityNames.filter(c => c.toLowerCase().includes(value.toLowerCase())).slice(0, 6);
+                const matches = cityNames
+                    .filter(c =>
+                        c.toLowerCase().includes(value.toLowerCase()))
+                    .slice(0, 6);
 
                 if (matches.length === 0) {
+
                     list.style.display = 'none';
+
                     return;
                 }
 
                 matches.forEach((name) => {
 
                     const item = document.createElement('div');
+
                     item.className = 'autocomplete-item';
+
                     item.textContent = name;
 
                     item.onclick = () => {
+
                         input.value = name;
+
                         list.style.display = 'none';
+
                         searchCity(name);
                     };
 
@@ -76,20 +105,43 @@ export function AddCitySearch() {
                 let found = false;
 
                 cityLayer.eachLayer(layer => {
-                    if (layer.feature.properties.name.toLowerCase().trim() === cityName.toLowerCase().trim())
-                    {
-                        const center = layer.getBounds().getCenter();
-                        map.flyTo(center, 8, { duration: 1.2 });
-                        layer.fire('click');
+
+                    const layerCityName =
+                        mapGeoCityName(layer.feature.properties.name);
+
+                    if (
+                        layerCityName.toLowerCase().trim()
+                        === cityName.toLowerCase().trim()
+                    ) {
+
+                        const bounds = layer.getBounds();
+
+                        if (!bounds.isValid()) return;
+
+                        const center = bounds.getCenter();
+
+                        if (!center) return;
+
+                        map.flyTo(center, 8, {
+                            duration: 1.2
+                        });
+
+                        layer.openTooltip(center);
+
                         found = true;
                     }
                 });
 
                 if (!found) {
+
                     Swal.fire({
+
                         icon: 'warning',
+
                         title: 'Şehir Bulunamadı',
+
                         text: 'Geçerli bir şehir seç.',
+
                         confirmButtonColor: '#1e88e5'
                     });
                 }
@@ -98,9 +150,11 @@ export function AddCitySearch() {
             function updateSelection(items) {
 
                 items.forEach((item, index) => {
+
                     item.classList.remove('active');
 
                     if (index === selectedIndex) {
+
                         item.classList.add('active');
 
                         item.scrollIntoView({
@@ -112,28 +166,45 @@ export function AddCitySearch() {
 
             function handleKeyDown(e) {
 
-                const items = list.querySelectorAll('.autocomplete-item');
+                const items =
+                    list.querySelectorAll('.autocomplete-item');
 
-                if (list.style.display === 'none' || items.length === 0) return;
+                if (
+                    list.style.display === 'none'
+                    || items.length === 0
+                ) return;
 
                 if (e.key === 'ArrowDown') {
+
                     e.preventDefault();
-                    selectedIndex = (selectedIndex + 1) % items.length;
+
+                    selectedIndex =
+                        (selectedIndex + 1) % items.length;
+
                     updateSelection(items);
                 }
 
                 else if (e.key === 'ArrowUp') {
+
                     e.preventDefault();
-                    selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+
+                    selectedIndex =
+                        (selectedIndex - 1 + items.length)
+                        % items.length;
+
                     updateSelection(items);
                 }
 
                 else if (e.key === 'Enter') {
+
                     e.preventDefault();
 
                     if (selectedIndex >= 0) {
+
                         items[selectedIndex].click();
-                    } else {
+                    }
+                    else {
+
                         searchCity(input.value);
                     }
 
@@ -141,10 +212,14 @@ export function AddCitySearch() {
                 }
             }
 
-            input.addEventListener('input', e => showSuggestions(e.target.value));
-            input.addEventListener('keydown', handleKeyDown);
+            input.addEventListener('input',
+                e => showSuggestions(e.target.value));
+
+            input.addEventListener('keydown',
+                handleKeyDown);
 
             document.addEventListener('click', () => {
+
                 list.style.display = 'none';
             });
 

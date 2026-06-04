@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MapWeatherApp.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20260518193938_migration_1")]
-    partial class migration_1
+    [Migration("20260524000354_mig_0")]
+    partial class mig_0
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -98,6 +98,12 @@ namespace MapWeatherApp.API.Migrations
 
                     b.Property<double>("SnowVolume")
                         .HasColumnType("float");
+
+                    b.Property<long>("Sunrise")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Sunset")
+                        .HasColumnType("bigint");
 
                     b.Property<double>("TempMax")
                         .HasColumnType("float");

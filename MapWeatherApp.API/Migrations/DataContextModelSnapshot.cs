@@ -96,6 +96,12 @@ namespace MapWeatherApp.API.Migrations
                     b.Property<double>("SnowVolume")
                         .HasColumnType("float");
 
+                    b.Property<long>("Sunrise")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Sunset")
+                        .HasColumnType("bigint");
+
                     b.Property<double>("TempMax")
                         .HasColumnType("float");
 

@@ -1,0 +1,94 @@
+﻿.leaflet-tooltip {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    transition: opacity 0.08s ease;
+}
+
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+    border: none !important;
+}
+
+.custom-weather-tooltip {
+    pointer-events: none;
+}
+
+.modern-weather-tooltip {
+    width: 190px;
+    padding: 14px;
+    border-radius: 22px;
+    background: linear-gradient( 160deg, rgba(14,18,30,0.96), rgba(24,32,52,0.92) );
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.38);
+    color: white;
+    font-family: "Segoe UI", sans-serif;
+    text-align: center;
+}
+
+.mwt-city {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    line-height: 1.1;
+}
+
+.mwt-status {
+    margin-top: 2px;
+    font-size: 12px;
+    opacity: 0.72;
+    text-transform: capitalize;
+}
+
+.mwt-icon {
+    width: 80px;
+    height: 80px;
+    margin-top: -6px;
+    margin-bottom: -6px;
+}
+
+.mwt-temp {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.mwt-feels {
+    margin-top: 3px;
+    font-size: 13px;
+    opacity: 0.75;
+}
+
+.mwt-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 12px 0;
+}
+
+.mwt-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.mwt-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 8px;
+}
+
+.mwt-label {
+    font-size: 11px;
+    opacity: 0.7;
+    margin-bottom: 3px;
+}
+
+.mwt-value {
+    font-size: 13px;
+    font-weight: 700;
+}

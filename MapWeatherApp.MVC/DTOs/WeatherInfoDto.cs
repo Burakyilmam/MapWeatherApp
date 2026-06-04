@@ -4,6 +4,8 @@
     {
         public string City { get; set; }
 
+        public string? Country { get; set; }
+
         public int PlateCode { get; set; }
 
         public double Latitude { get; set; }
@@ -29,6 +31,14 @@
         public double RainVolume { get; set; }
 
         public double SnowVolume { get; set; }
+
+        public long Sunrise { get; set; }
+
+        public long Sunset { get; set; }
+
+        public double TempMin { get; set; }
+
+        public double TempMax { get; set; }
 
         public string ConditionMain { get; set; }
 

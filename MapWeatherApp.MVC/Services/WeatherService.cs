@@ -12,7 +12,7 @@ namespace MapWeatherApp.MVC.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<WeatherInfoDto>>GetLatestWeatherAsync()
+        public async Task<List<WeatherInfoDto>> GetLatestWeatherAsync()
         {
             var response = await _httpClient.GetAsync("api/weather/latest");
 
@@ -25,8 +25,41 @@ namespace MapWeatherApp.MVC.Services
                 PropertyNameCaseInsensitive = true
             };
 
-            return JsonSerializer.Deserialize<List<WeatherInfoDto>>(json, options)!;
+            var data = JsonSerializer.Deserialize<List<WeatherInfoDto>>(json, options);
+
+            return data ?? new List<WeatherInfoDto>();
         }
 
+        public async Task<List<WeatherHistoryDto>> GetHistoryAsync(string city)
+        {
+            var response = await _httpClient.GetAsync($"api/weather/{city}/history");
+
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            return JsonSerializer.Deserialize<List<WeatherHistoryDto>>(json, options) ?? new();
+        }
+
+        public async Task<List<ForecastDayDto>> GetForecastAsync(string city)
+        {
+            var response = await _httpClient.GetAsync($"api/weather/{city}/forecast");
+
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            return JsonSerializer.Deserialize<List<ForecastDayDto>>(json, options) ?? new();
+        }
     }
 }

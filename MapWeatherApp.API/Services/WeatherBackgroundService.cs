@@ -6,8 +6,7 @@ namespace MapWeatherApp.API.Services
     {
         private readonly IServiceScopeFactory _scopeFactory;
 
-        public WeatherBackgroundService(
-            IServiceScopeFactory scopeFactory)
+        public WeatherBackgroundService(IServiceScopeFactory scopeFactory)
         {
             _scopeFactory = scopeFactory;
         }
@@ -16,7 +15,7 @@ namespace MapWeatherApp.API.Services
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                using var scope =_scopeFactory.CreateScope();
+                using var scope = _scopeFactory.CreateScope();
 
                 var weatherService = scope.ServiceProvider.GetRequiredService<WeatherService>();
 
@@ -36,7 +35,7 @@ namespace MapWeatherApp.API.Services
 
                 Console.WriteLine("Tüm şehirler güncellendi");
 
-                await Task.Delay(TimeSpan.FromMinutes(30),stoppingToken);
+                await Task.Delay(TimeSpan.FromMinutes(30), stoppingToken);
             }
         }
     }

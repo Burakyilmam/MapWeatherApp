@@ -20,7 +20,6 @@ export function GetColorByWind(wind) {
     if (wind < 15) return "#4caf50";
     if (wind < 25) return "#fbc02d";
     if (wind < 40) return "#fb8c00";
-
     return "#c62828";
 }
 
@@ -29,7 +28,6 @@ export function GetColorByRain(rain) {
     if (rain < 2) return "#90caf9";
     if (rain < 5) return "#42a5f5";
     if (rain < 15) return "#1565c0";
-
     return "#0d47a1";
 }
 
@@ -66,22 +64,9 @@ export function GetColorByVisibility(visibility) {
 }
 
 export function GetColorByPressure(pressure) {
-    // < 990 hPa: Çok Alçak Basınç (Görselin en solundaki o derin, koyu okyanus mavisi)
-    if (pressure < 990)
-        return '#006699';
-
-    // < 1000 hPa: Alçak Basınç (Görseldeki o canlı, tatlı turkuaz tonu)
-    if (pressure < 1000)
-        return '#009999';
-
-    // < 1010 hPa: Normal Basınç / Dengeli (Tam ortadaki o mat, hafif yeşilimsi soft geçiş rengi)
-    if (pressure < 1010)
-        return '#7DA49A';
-
-    // < 1020 hPa: Yüksek Basınç (Sağa doğru geçen o tatlı taba / açık kahve-turuncu tonu)
-    if (pressure < 1020)
-        return '#B37D4A';
-
-    // 1020 hPa ve üzeri: Çok Yüksek Basınç (En sağdaki o yoğun, tok kiremit / yanık turuncu tonu)
+    if (pressure < 990) return '#006699';
+    if (pressure < 1000) return '#009999';
+    if (pressure < 1010) return '#7DA49A';
+    if (pressure < 1020) return '#B37D4A';
     return '#A65526';
 }
