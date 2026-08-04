@@ -1,6 +1,4 @@
-﻿import { GetMap } from './Map.js';
-
-export function GetColorByTemperature(temperature) {
+﻿export function GetColorByTemperature(temperature) {
     if (temperature < -50) return '#4a148c';
     if (temperature < -40) return '#7b1fa2';
     if (temperature < -30) return '#651fff';
