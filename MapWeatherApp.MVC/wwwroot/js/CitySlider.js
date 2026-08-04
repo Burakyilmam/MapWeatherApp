@@ -51,7 +51,7 @@ export function StartCitySlider(cityName) {
             url("${image.src}")
         `;
 
-        title.textContent = `📍 ${image.title}`;
+        title.textContent = ` ${image.title}`;
 
         if (image.wiki) {
 

@@ -89,8 +89,12 @@
     }
 
 .wp-city-image-title {
+    position: absolute;
+    left: 50%;
+    bottom: 105px;
+    transform: translateX(-50%);
     width: fit-content;
-    margin: 0 auto 8px;
+    margin: 0;
     padding: 5px 10px;
     display: inline-flex;
     align-items: center;
@@ -99,13 +103,15 @@
     font-weight: 600;
     color: rgba(255, 255, 255, 0.95);
     text-decoration: none;
-    background: rgba(255, 255, 255, 0.14);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(10, 15, 25, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 10px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
     cursor: pointer;
+    z-index: 30;
+    pointer-events: auto;
     transition: background 0.2s ease, transform 0.2s ease;
 }
 
@@ -113,7 +119,7 @@
         color: white;
         text-decoration: none;
         background: rgba(255, 255, 255, 0.22);
-        transform: translateY(-1px);
+        transform: translateX(-50%) translateY(-1px);
     }
 
 .wp-city-slider-arrow {
@@ -152,13 +158,16 @@
 }
 
 .wp-city-slider-dots {
-    position: relative;
+    position: absolute;
+    left: 50%;
+    bottom: 72px;
+    transform: translateX(-50%);
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 7px;
-    margin: 4px 0 8px;
-    z-index: 20;
+    margin: 0;
+    z-index: 30;
     pointer-events: auto;
 }
 
@@ -193,27 +202,26 @@
 
 .wp-header {
     position: absolute;
-    top: 20px;
+    top: 42px;
     left: 20px;
+    right: 20px;
     z-index: 20;
-}
-
-.wp-city-name,
-.wp-city-image-title {
-    position: relative;
-    z-index: 30;
-    pointer-events: auto;
 }
 
 .wp-city-name {
     display: inline-block;
-    font-size: 28px;
+    max-width: 260px;
+    font-size: 27px;
+    line-height: 1.05;
     font-weight: 800;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: white;
     text-decoration: none;
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8), 0 4px 16px rgba(0, 0, 0, 0.4);
-    transition: opacity 0.2s ease, transform 0.2s ease;
 }
+
 
     .wp-city-name:hover {
         color: white;
@@ -223,46 +231,63 @@
     }
 
 .wp-center-info {
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 40px);
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: -10px;
+    margin: 0;
 }
 
 .wp-big-icon {
-    width: 120px;
-    height: 120px;
-    margin-bottom: -5px;
+    width: 92px;
+    height: 92px;
+    margin: 0 0 -8px 0;
+    filter: drop-shadow( 0 5px 10px rgba(0, 0, 0, 0.25) );
 }
 
 .wp-condition-desc {
+    margin: 0 0 5px 0;
     font-size: 18px;
-    opacity: 0.85;
-    margin-bottom: 2px;
+    font-weight: 400;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, .45);
 }
 
 .wp-main-temp {
-    font-size: 80px;
+    font-size: 58px;
     font-weight: 200;
-    line-height: 1;
-    letter-spacing: -2px;
+    line-height: 0.95;
+    letter-spacing: -3px;
+    text-shadow: 0 3px 14px rgba(0, 0, 0, .25);
 }
 
 .wp-celsius {
-    font-size: 36px;
+    font-size: 30px;
     font-weight: 300;
-    vertical-align: super;
+    vertical-align: top;
+    position: relative;
+    top: 5px;
+    left: 3px;
 }
 
 .wp-feels-like {
+    margin-top: 7px;
     font-size: 14px;
-    opacity: 0.6;
-    margin-top: 4px;
+    color: rgba(255,255,255,.70);
 }
 
 .wp-footer-action {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 22px;
     display: flex;
     justify-content: center;
+    z-index: 20;
+    pointer-events: none;
 }
 
 .wp-weather-tip {
@@ -272,11 +297,12 @@
     gap: 6px;
     max-width: 90%;
     padding: 7px 12px;
-    background: rgba(255, 255, 255, 0.14);
-    border: 1px solid rgba(255, 255, 255, 0.20);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(8px);
+    background: rgba(10, 15, 25, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 12px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
     color: rgba(255, 255, 255, 0.92);
     font-size: 11px;
     font-weight: 600;
@@ -768,17 +794,31 @@
         max-height: 250px;
     }
 
-.wp-city-music-progress {
+.wp-city-music-controls {
     position: absolute;
-    top: 14px;
-    left: 16px;
-    right: 16px;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.30);
-    border-radius: 10px;
-    cursor: pointer;
-    z-index: 20;
+    top: 8px;
+    left: 14px;
+    right: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 40;
 }
+
+.wp-city-music-progress {
+    position: relative;
+    flex: 1;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.28);
+    border-radius: 999px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: height 0.15s ease;
+}
+
+    .wp-city-music-progress:hover {
+        height: 5px;
+    }
 
 .wp-city-music-progress-fill {
     width: 0%;
@@ -787,3 +827,30 @@
     border-radius: inherit;
     pointer-events: none;
 }
+
+.wp-city-info-btn,
+.wp-city-music-mute {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 50%;
+    background: rgba(10, 15, 25, 0.30);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+}
+
+    .wp-city-info-btn:hover,
+    .wp-city-music-mute:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.22);
+        transform: scale(1.08);
+    }

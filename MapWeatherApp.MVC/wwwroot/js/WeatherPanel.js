@@ -276,9 +276,27 @@ export async function OpenWeatherPanel(weather, latlng) {
 
                 <div class="wp-left-card">
 
+            <div class="wp-city-music-controls">
+
+                <button
+                     type="button"
+                     class="wp-city-info-btn"
+                     title="Şehir bilgileri">
+                     ⓘ
+                </button>
+
                 <div class="wp-city-music-progress">
                     <div class="wp-city-music-progress-fill"></div>
                 </div>
+            
+                <button
+                    type="button"
+                    class="wp-city-music-mute"
+                    title="Sesi kapat">
+                    🔊
+                </button>
+            
+            </div>
 
               <div class="wp-header">
                 <a
