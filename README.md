@@ -10,12 +10,11 @@
   <li><b>Bootstrap</b></li>
   <li><b>ASP.NET Core MVC</b></li>
   <li><b>ASP.NET Core Web API</b></li>
-  <li><b>Entity Framework Core</b></li>
+  <li><b>Entity Framework</b></li>
   <li><b>Microsoft SQL Server (MSSQL)</b></li>
   <li><b>Leaflet.js</b></li>
   <li><b>GeoJSON</b></li>
   <li><b>SweetAlert2</b></li>
-  <li><b>Chart.js</b></li>
   <li><b>OpenWeatherMap API</b></li>
 </ul>
 
@@ -61,7 +60,9 @@
 
   <li>Çoklu veri katmanı desteği (Sıcaklık / Rüzgar / Yağış / Nem / Kar / Bulut / Görüş Mesafesi / Basınç)</li>
   
-  <li>Modern tasarıma sahip etkileşimli bilgi paneli ve tooltip sistemi</li>
+  <li>Modern tasarıma sahip etkileşimli bilgi paneli</li>
+
+  <li>Hava durumuna göre dinamik video ve ortam sesi oynatan modern tooltip sistemi</li>
   
   <li>Sürüklenebilir popup ve kontrol panelleri</li>
 
