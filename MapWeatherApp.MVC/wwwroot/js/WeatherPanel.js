@@ -1,5 +1,8 @@
 ﻿import { GetMap } from "./Map.js";
 import { MakeDraggableControl } from "./Draggable.js";
+import { cities } from "./Cities.js";
+import { StartCitySlider, StopCitySlider } from "./CitySlider.js";
+import { StartCityMusic, StopCityMusic } from "./MusicPlayer.js";
 
 window.CloseWeatherPanelGlobal = function () {
     CloseWeatherPanel();
@@ -161,7 +164,6 @@ export async function OpenWeatherPanel(weather, latlng) {
         pressureStatusClass = "high";
     }
 
-
     const windDegree = weather.windDegree || 0;
     const windDirection = getWindDirection(windDegree);
 
@@ -274,27 +276,22 @@ export async function OpenWeatherPanel(weather, latlng) {
 
                 <div class="wp-left-card">
 
-                    <div class="wp-header">
+                <div class="wp-city-music-progress">
+                    <div class="wp-city-music-progress-fill"></div>
+                </div>
 
-                        <div class="wp-location-wrapper">
+              <div class="wp-header">
+                <a
+                    class="wp-city-name"
+                    href="${cities[weather.city]?.wiki || "#"}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="${weather.city} hakkında bilgi">
 
-                            <span class="wp-geo-icon">📍</span>
+                    ${weather.city}
 
-                            <span class="wp-city-name">
-                                ${weather.city}
-                            </span>
-
-                            <span class="wp-dropdown-arrow">
-                                ▼
-                            </span>
-
-                        </div>
-
-                        <div class="wp-country-name">
-                             ${weather.country === "TR" ? "Türkiye" : weather.country}
-                        </div>
-
-                    </div>
+                </a>
+            </div>
 
                     <div class="wp-center-info">
 
@@ -319,11 +316,32 @@ export async function OpenWeatherPanel(weather, latlng) {
 
                     </div>
 
-                    <div class="wp-footer-action">
-                    <button class="wp-umbrella-btn">
-                        ${weatherTip}
-                    </button>
+                    <a
+                        class="wp-city-image-title"
+                        href="#"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                    </a>
+
+                <div class="wp-city-slider-dots"></div>
+                
+                <div class="wp-footer-action">
+                    <div class="wp-weather-tip">
+                        <span>${weatherTip}</span>
                     </div>
+                </div>
+                
+                <button
+                    class="wp-city-slider-arrow wp-city-slider-prev"
+                    type="button">
+                    ‹
+                </button>
+                
+                <button
+                    class="wp-city-slider-arrow wp-city-slider-next"
+                    type="button">
+                    ›
+                </button>
 
                 </div>
 
@@ -402,16 +420,6 @@ export async function OpenWeatherPanel(weather, latlng) {
 
                             <span class="wp-detail-val">
                                 ${(weather.rainVolume || 0).toFixed(1)} mm
-                            </span>
-                        </div>
-
-                        <div class="wp-detail-row no-border">
-                            <span class="wp-detail-label">
-                                ☀️ UV
-                            </span>
-
-                            <span class="wp-detail-val">
-                                Yakında
                             </span>
                         </div>
 
@@ -638,7 +646,8 @@ export async function OpenWeatherPanel(weather, latlng) {
     requestAnimationFrame(() => {
 
         MakeDraggableControl(panel);
-
+        StartCitySlider(weather.city);
+        StartCityMusic(weather.city);
     });
 }
 
@@ -647,6 +656,9 @@ export function CloseWeatherPanel() {
     const panel = document.getElementById("weatherDetailPanel");
 
     if (!panel) return;
+
+    StopCitySlider();
+    StopCityMusic();
 
     panel.classList.remove("open");
 }

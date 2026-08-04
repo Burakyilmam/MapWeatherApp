@@ -58,7 +58,7 @@
     gap: 14px;
 }
 
-.wp-left-card, .wp-temp-range-card, .wp-details-list-card, .wp-right-widget {
+ .wp-temp-range-card, .wp-details-list-card, .wp-right-widget {
     background: rgba(18, 26, 42, 0.4) !important;
     border: 1px solid rgba(255, 255, 255, 0.05) !important;
     border-radius: 24px;
@@ -66,12 +66,124 @@
 }
 
 .wp-left-card {
+    position: relative;
     padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     min-height: 410px;
+    background-color: rgba(18, 26, 42, 0.4);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    box-sizing: border-box;
+    overflow: hidden;
+    touch-action: pan-y;
+    user-select: none;
 }
+
+    .wp-left-card.dragging {
+        cursor: grabbing;
+    }
+
+.wp-city-image-title {
+    width: fit-content;
+    margin: 0 auto 8px;
+    padding: 5px 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 10px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+    .wp-city-image-title:hover {
+        color: white;
+        text-decoration: none;
+        background: rgba(255, 255, 255, 0.22);
+        transform: translateY(-1px);
+    }
+
+.wp-city-slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 34px;
+    height: 48px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(8px);
+    color: white;
+    font-size: 30px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 0.2s ease, background 0.2s ease;
+}
+
+.wp-city-slider-prev {
+    left: 10px;
+}
+
+.wp-city-slider-next {
+    right: 10px;
+}
+
+.wp-left-card:hover .wp-city-slider-arrow {
+    opacity: 1;
+}
+
+.wp-city-slider-arrow:hover {
+    background: rgba(0, 0, 0, 0.55);
+}
+
+.wp-city-slider-dots {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    margin: 4px 0 8px;
+    z-index: 20;
+    pointer-events: auto;
+}
+
+.wp-city-slider-dot {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+    cursor: pointer;
+    pointer-events: auto;
+    transition: width 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+    .wp-city-slider-dot:hover {
+        background: rgba(255, 255, 255, 0.8);
+        transform: scale(1.2);
+    }
+
+    .wp-city-slider-dot.active {
+        width: 20px;
+        border-radius: 10px;
+        background: white;
+    }
 
 .wp-location-wrapper {
     display: flex;
@@ -79,23 +191,36 @@
     gap: 6px;
 }
 
+.wp-header {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 20;
+}
+
+.wp-city-name,
+.wp-city-image-title {
+    position: relative;
+    z-index: 30;
+    pointer-events: auto;
+}
+
 .wp-city-name {
+    display: inline-block;
     font-size: 28px;
-    font-weight: 700;
+    font-weight: 800;
+    color: white;
+    text-decoration: none;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8), 0 4px 16px rgba(0, 0, 0, 0.4);
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.wp-dropdown-arrow {
-    font-size: 11px;
-    opacity: 0.4;
-    margin-left: 2px;
-}
-
-.wp-country-name {
-    font-size: 14px;
-    opacity: 0.5;
-    margin-top: 2px;
-    padding-left: 20px;
-}
+    .wp-city-name:hover {
+        color: white;
+        text-decoration: none;
+        opacity: 0.85;
+        transform: translateY(-1px);
+    }
 
 .wp-center-info {
     display: flex;
@@ -135,17 +260,28 @@
     margin-top: 4px;
 }
 
-.wp-umbrella-btn {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 16px;
-    background: linear-gradient(135deg, #4f46e5, #6366f1);
-    color: white;
-    font-size: 13px;
+.wp-footer-action {
+    display: flex;
+    justify-content: center;
+}
+
+.wp-weather-tip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    max-width: 90%;
+    padding: 7px 12px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 11px;
     font-weight: 600;
-    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.25);
-    cursor: pointer;
+    text-align: center;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
 }
 
 .wp-middle-column {
@@ -631,3 +767,23 @@
     .wp-forecast-content.open {
         max-height: 250px;
     }
+
+.wp-city-music-progress {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    right: 16px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.30);
+    border-radius: 10px;
+    cursor: pointer;
+    z-index: 20;
+}
+
+.wp-city-music-progress-fill {
+    width: 0%;
+    height: 100%;
+    background: darkorange;
+    border-radius: inherit;
+    pointer-events: none;
+}
