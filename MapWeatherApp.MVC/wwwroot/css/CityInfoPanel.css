@@ -1,0 +1,777 @@
+﻿.wp-city-info-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: calc(100vw - 40px);
+    height: calc(100vh - 40px);
+    max-width: 1600px;
+    max-height: 950px;
+    transform: translate(-50%, -50%);
+    z-index: 99999;
+    display: none;
+    box-sizing: border-box;
+    overflow: hidden;
+    color: #ffffff;
+    background: linear-gradient( 135deg, #07111a 0%, #09151f 50%, #061018 100% );
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 22px;
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.65), 0 0 0 100vmax rgba(0, 0, 0, 0.40);
+    font-family: inherit;
+}
+
+    .wp-city-info-panel.open {
+        display: block;
+        animation: cityInfoPanelOpen 0.25s ease-out;
+    }
+
+
+@keyframes cityInfoPanelOpen {
+
+    from {
+        opacity: 0;
+        transform: translate(-50%, -48%) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.wp-city-info-header {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding: 0;
+    z-index: 100;
+}
+
+.wp-city-info-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 50%;
+    background: rgba(7, 17, 26, 0.78);
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 17px;
+    cursor: pointer;
+    z-index: 100;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+
+    .wp-city-info-close:hover {
+        background: rgba(255, 255, 255, 0.10);
+        border-color: rgba(255, 255, 255, 0.25);
+        color: #ffffff;
+        transform: rotate(90deg);
+    }
+
+.wp-city-info-content {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+
+    .wp-city-info-content::-webkit-scrollbar {
+        width: 7px;
+    }
+
+
+    .wp-city-info-content::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+
+    .wp-city-info-content::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 20px;
+    }
+
+
+        .wp-city-info-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+.wp-city-section {
+    width: 100%;
+    margin-bottom: 14px;
+    box-sizing: border-box;
+    background: linear-gradient( 135deg, rgba(8, 21, 32, 0.96), rgba(6, 17, 27, 0.96) );
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.wp-city-section-header {
+    min-height: 44px;
+    padding: 10px 14px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.wp-city-section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+
+    .wp-city-section-title span {
+        flex: 0 0 auto;
+        color: #f5b83d;
+        font-size: 17px;
+    }
+
+
+    .wp-city-section-title h3 {
+        margin: 0;
+        color: #f5b83d;
+        font-size: 13px;
+        line-height: 1;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+
+.wp-city-info-hero {
+    margin-bottom: 14px;
+    background: transparent;
+    border: none;
+    overflow: visible;
+}
+
+
+    .wp-city-info-hero .wp-city-info-intro {
+        margin: 0;
+    }
+
+.wp-city-info-intro {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    min-height: 280px;
+    display: grid;
+    grid-template-columns: 620px minmax(0, 1fr);
+    align-items: stretch;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #07131d;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.wp-city-info-image-section {
+    margin-top: 0;
+    padding-top: 0;
+    height: 280px;
+    align-self: stretch;
+    position: relative;
+    width: 620px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #07131d;
+}
+
+.wp-city-info-intro-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+    user-select: none;
+    pointer-events: none;
+}
+
+.wp-city-info-image-section::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient( 90deg, rgba(5, 15, 24, 0.82) 0%, rgba(5, 15, 24, 0.42) 42%, rgba(5, 15, 24, 0.10) 100% );
+    z-index: 1;
+    pointer-events: none;
+}
+
+.wp-city-info-intro-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 28px 36px;
+    z-index: 2;
+}
+
+
+    .wp-city-info-intro-overlay h2 {
+        margin: 0;
+        color: #ffffff;
+        font-size: 38px;
+        line-height: 1;
+        font-weight: 800;
+        letter-spacing: 1px;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    }
+
+
+    .wp-city-info-intro-overlay h3 {
+        margin: 9px 0 10px;
+        color: #f5b83d;
+        font-size: 13px;
+        line-height: 1.2;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+    }
+
+
+    .wp-city-info-intro-overlay p {
+        margin: 0;
+        max-width: 420px;
+        color: rgba(255, 255, 255, 0.90);
+        font-size: 12px;
+        line-height: 1.55;
+    }
+
+.wp-city-info-facts {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    min-height: 0;
+    box-sizing: border-box;
+    padding: 10px;
+    align-self: stretch;
+    background: linear-gradient( 135deg, rgba(6, 17, 27, 0.98), rgba(7, 19, 29, 0.94) );
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 3;
+}
+
+.wp-city-info-facts-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 22px;
+    margin-bottom: 12px;
+    color: #f5b83d;
+}
+
+
+    .wp-city-info-facts-title span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+    }
+
+
+    .wp-city-info-facts-title strong {
+        font-size: 13px;
+        line-height: 1;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+
+.wp-city-info-facts-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 6px;
+    height: calc(100% - 38px);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.wp-city-info-fact {
+    width: 100%;
+    min-width: 0;
+    padding: 6px 7px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 0;
+    height: auto;
+    box-sizing: border-box;
+    border-radius: 7px;
+    background: linear-gradient( 135deg, rgba(14, 31, 45, 0.95), rgba(10, 24, 36, 0.95) );
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+
+    .wp-city-info-fact:hover {
+        background: linear-gradient( 135deg, rgba(22, 42, 58, 0.96), rgba(14, 31, 45, 0.96) );
+        border-color: rgba(245, 184, 61, 0.20);
+        transform: translateY(-1px);
+    }
+
+    .wp-city-info-fact .fact-icon {
+        flex: 0 0 20px;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #f5b83d;
+        font-size: 13px;
+    }
+
+    .wp-city-info-fact > div {
+        min-width: 0;
+        flex: 1;
+    }
+
+
+    .wp-city-info-fact small {
+        display: block;
+        margin-bottom: 2px;
+        color: rgba(255, 255, 255, 0.48);
+        font-size: 8px;
+        line-height: 1.2;
+    }
+
+    .wp-city-info-fact strong {
+        display: block;
+        color: rgba(255, 255, 255, 0.95);
+        font-size: 10px;
+        line-height: 1.25;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+
+    .wp-city-info-fact strong {
+        display: block;
+        color: rgba(255, 255, 255, 0.95);
+        font-size: 10px;
+        line-height: 1.25;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+.wp-city-places-slider,
+.wp-city-foods-slider,
+.wp-city-people-slider,
+.wp-city-districts-slider {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 8px 12px;
+}
+
+.wp-city-place-list,
+.wp-city-food-list,
+.wp-city-people-list,
+.wp-city-district-list {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 145px;
+    gap: 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+}
+
+    .wp-city-place-list::-webkit-scrollbar,
+    .wp-city-food-list::-webkit-scrollbar,
+    .wp-city-people-list::-webkit-scrollbar,
+    .wp-city-district-list::-webkit-scrollbar {
+        display: none;
+    }
+
+.wp-city-places-prev,
+.wp-city-places-next,
+.wp-city-foods-prev,
+.wp-city-foods-next,
+.wp-city-people-prev,
+.wp-city-people-next,
+.wp-city-districts-prev,
+.wp-city-districts-next {
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid rgba(245, 184, 61, 0.25);
+    border-radius: 50%;
+    background: rgba(7, 17, 26, 0.95);
+    color: #f5b83d;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+    .wp-city-places-prev:hover,
+    .wp-city-places-next:hover,
+    .wp-city-foods-prev:hover,
+    .wp-city-foods-next:hover,
+    .wp-city-people-prev:hover,
+    .wp-city-people-next:hover,
+    .wp-city-districts-prev:hover,
+    .wp-city-districts-next:hover {
+        background: rgba(245, 184, 61, 0.12);
+        border-color: rgba(245, 184, 61, 0.55);
+        transform: scale(1.05);
+    }
+
+.wp-city-district-content {
+    padding: 10px 12px 11px;
+    text-align: center;
+}
+
+    .wp-city-district-content h4 {
+        margin: 0 0 6px;
+        color: #ffffff;
+        font-size: 15px;
+        line-height: 1.2;
+        font-weight: 700;
+    }
+
+    .wp-city-district-content small {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        color: rgba(255, 255, 255, 0.75);
+        font-size: 12px;
+        line-height: 1.2;
+        font-weight: 600;
+    }
+
+.wp-city-district-card {
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #0b1a27;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+    .wp-city-district-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(245, 184, 61, 0.25);
+    }
+
+.wp-city-district-image {
+    width: 100%;
+    height: 105px;
+    overflow: hidden;
+}
+
+    .wp-city-district-image img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+.wp-city-district-card:hover
+.wp-city-district-image img {
+    transform: scale(1.05);
+}
+
+.wp-city-district-card h4 {
+    margin: 0;
+    padding: 9px;
+    color: #ffffff;
+    font-size: 11px;
+    line-height: 1.2;
+    font-weight: 600;
+}
+
+.wp-city-place-card {
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #0b1a27;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+
+    .wp-city-place-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(245, 184, 61, 0.25);
+    }
+
+
+.wp-city-place-image {
+    width: 100%;
+    height: 105px;
+    overflow: hidden;
+}
+
+
+    .wp-city-place-image img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+
+.wp-city-place-card:hover
+.wp-city-place-image img {
+    transform: scale(1.05);
+}
+
+
+.wp-city-place-content {
+    padding: 8px;
+    text-align: center;
+}
+
+
+    .wp-city-place-content h4 {
+        margin: 0 0 4px;
+        color: #ffffff;
+        font-size: 11px;
+        line-height: 1.2;
+        font-weight: 600;
+    }
+
+
+    .wp-city-place-content small {
+        display: block;
+        margin-bottom: 6px;
+        color: rgba(255, 255, 255, 0.55);
+        font-size: 8px;
+    }
+
+
+    .wp-city-place-content span {
+        color: #f5b83d;
+        font-size: 8px;
+    }
+
+.wp-city-food-card {
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #0b1a27;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    text-align: center;
+}
+
+
+    .wp-city-food-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(245, 184, 61, 0.25);
+    }
+
+
+.wp-city-food-image {
+    width: 100%;
+    height: 105px;
+    overflow: hidden;
+}
+
+
+    .wp-city-food-image img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+
+.wp-city-food-card:hover
+.wp-city-food-image img {
+    transform: scale(1.05);
+}
+
+
+.wp-city-food-card h4 {
+    margin: 0;
+    padding: 9px;
+    color: #ffffff;
+    font-size: 11px;
+    line-height: 1.2;
+    font-weight: 600;
+}
+
+.wp-city-history-section {
+    padding-bottom: 12px;
+}
+
+.wp-city-timeline {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    width: 100%;
+    margin: 0;
+    padding: 18px 18px 8px;
+    box-sizing: border-box;
+    gap: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(245, 184, 61, 0.35) transparent;
+}
+
+    .wp-city-timeline::-webkit-scrollbar {
+        height: 5px;
+    }
+
+    .wp-city-timeline::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .wp-city-timeline::-webkit-scrollbar-thumb {
+        background: rgba(245, 184, 61, 0.35);
+        border-radius: 10px;
+    }
+
+        .wp-city-timeline::-webkit-scrollbar-thumb:hover {
+            background: rgba(245, 184, 61, 0.60);
+        }
+
+.wp-city-timeline-item {
+    position: relative;
+    flex: 0 0 180px;
+    width: 180px;
+    min-width: 180px;
+    max-width: 180px;
+    margin: 0;
+    padding: 0 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    z-index: 1;
+}
+
+    .wp-city-timeline-item:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        top: 5px;
+        left: 15px;
+        width: 180px;
+        height: 2px;
+        background: #f5b83d;
+        opacity: 0.65;
+        z-index: 0;
+        pointer-events: none;
+    }
+
+.timeline-dot {
+    position: relative;
+    left: auto;
+    top: auto;
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    margin-bottom: 12px;
+    border-radius: 50%;
+    background: #f5b83d;
+    border: 2px solid #07131d;
+    box-shadow: 0 0 0 1px rgba(245, 184, 61, 0.75);
+    z-index: 2;
+}
+
+.wp-city-timeline-item > div {
+    min-width: 0;
+    padding-right: 8px;
+}
+
+.wp-city-timeline-item strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #f5b83d;
+    font-size: 10px;
+    line-height: 1.25;
+    font-weight: 700;
+    white-space: normal;
+}
+
+.wp-city-timeline-item p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 8px;
+    line-height: 1.45;
+}
+
+.wp-city-person-card {
+    overflow: hidden;
+    text-align: center;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    background: #0b1a27;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+
+    .wp-city-person-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(245, 184, 61, 0.25);
+    }
+
+
+    .wp-city-person-card img {
+        width: 82px;
+        height: 82px;
+        margin: 10px auto 7px;
+        display: block;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid rgba(245, 184, 61, 0.35);
+        background: #172633;
+    }
+
+
+    .wp-city-person-card h4 {
+        margin: 0 6px 4px;
+        color: #f5b83d;
+        font-size: 11px;
+        line-height: 1.2;
+        font-weight: 700;
+    }
+
+
+    .wp-city-person-card small {
+        display: block;
+        padding: 0 6px;
+        color: rgba(255, 255, 255, 0.58);
+        font-size: 10px;
+        line-height: 1.35;
+    }

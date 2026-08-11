@@ -1,8 +1,30 @@
 ﻿import { GetMap } from "./Map.js";
 import { MakeDraggableControl } from "./Draggable.js";
-import { cities } from "./Cities.js";
 import { StartCitySlider, StopCitySlider } from "./CitySlider.js";
 import { StartCityMusic, StopCityMusic } from "./MusicPlayer.js";
+import { OpenCityInfoPanel } from "./CityInfoPanel.js";
+
+const cityDataCache = {};
+
+async function GetCityData(cityName) {
+
+    if (cityDataCache[cityName]) {
+        return cityDataCache[cityName];
+    }
+
+    const response = await fetch(`/data/${cityName.toLocaleLowerCase("tr-TR")}.json`);
+
+    if (!response.ok) {
+        console.error(`${cityName} JSON verisi yüklenemedi.`);
+        return null;
+    }
+
+    const cityData = await response.json();
+
+    cityDataCache[cityName] = cityData;
+
+    return cityData;
+}
 
 window.CloseWeatherPanelGlobal = function () {
     CloseWeatherPanel();
@@ -10,83 +32,45 @@ window.CloseWeatherPanelGlobal = function () {
 
 window.toggleForecastPanel = function () {
 
-    const content =
-        document.getElementById("forecastContent");
+    const content = document.getElementById("forecastContent");
+    const arrow = document.getElementById("forecastArrow");
 
-    const arrow =
-        document.getElementById("forecastArrow");
+    if (!content) return;
 
-    if (!content)
-        return;
-
-    const isOpen =
-        content.classList.contains("open");
+    const isOpen = content.classList.contains("open");
 
     if (isOpen) {
 
         content.classList.remove("open");
-
         arrow.innerHTML = "▼";
     }
     else {
 
         content.classList.add("open");
-
         arrow.innerHTML = "▲";
     }
 };
 
 function getWeatherTip(weather) {
-
     const temp = weather.temperature;
-
-    if ((weather.rainVolume || 0) > 0)
-        return "Şemsiye almayı unutmayın";
-
-    if (weather.windSpeed * 3.6 >= 45)
-        return "Şiddetli rüzgara karşı dikkatli olun";
-
-    if (weather.visibility <= 2000)
-        return "Görüş mesafesi çok düşük";
-
-    if (weather.humidity >= 85)
-        return "Yüksek nem bunaltıcı olabilir";
-
-    if (weather.cloudiness >= 85)
-        return "Gökyüzü tamamen kapalı";
-
-    if (temp >= 40)
-        return "Aşırı sıcaklara dikkat";
-
-    if (temp >= 30)
-        return "Güneş kremi kullanmalısınız";
-
-    if (temp >= 25)
-        return "Güzel bir gün sizi bekliyor";
-
-    if (temp >= 20)
-        return "Hava oldukça keyifli";
-
-    if (temp >= 15)
-        return "Hafif bir hırka yeterli olur";
-
-    if (temp >= 10)
-        return "İnce bir ceket alabilirsiniz";
-
-    if (temp >= 5)
-        return "Hava serin, mont önerilir";
-
-    if (temp >= 0)
-        return "Hava soğuk, sıkı giyinin";
-
-    if (temp >= -10)
-        return "Don tehlikesine dikkat";
-
+    if ((weather.rainVolume || 0) > 0) return "Şemsiye almayı unutmayın";
+    if (weather.windSpeed * 3.6 >= 45) return "Şiddetli rüzgara karşı dikkatli olun";
+    if (weather.visibility <= 2000) return "Görüş mesafesi çok düşük";
+    if (weather.humidity >= 85) return "Yüksek nem bunaltıcı olabilir";
+    if (weather.cloudiness >= 85) return "Gökyüzü tamamen kapalı";
+    if (temp >= 40) return "Aşırı sıcaklara dikkat";
+    if (temp >= 30) return "Güneş kremi kullanmalısınız";
+    if (temp >= 25) return "Güzel bir gün sizi bekliyor";
+    if (temp >= 20) return "Hava oldukça keyifli";
+    if (temp >= 15) return "Hafif bir hırka yeterli olur";
+    if (temp >= 10) return "İnce bir ceket alabilirsiniz";
+    if (temp >= 5) return "Hava serin, mont önerilir";
+    if (temp >= 0) return "Hava soğuk, sıkı giyinin";
+    if (temp >= -10) return "Don tehlikesine dikkat";
     return "Buzlanmaya dikkat ediniz";
 }
 
 function getWindDirection(deg) {
-
     if (deg >= 337.5 || deg < 22.5) return "K";
     if (deg < 67.5) return "KD";
     if (deg < 112.5) return "D";
@@ -94,11 +78,12 @@ function getWindDirection(deg) {
     if (deg < 202.5) return "G";
     if (deg < 247.5) return "GB";
     if (deg < 292.5) return "B";
-
     return "KB";
 }
 
 export async function OpenWeatherPanel(weather, latlng) {
+
+    const cityData = await GetCityData(weather.city);
 
     const map = GetMap();
 
@@ -218,10 +203,7 @@ export async function OpenWeatherPanel(weather, latlng) {
 
         const date = new Date(day.date);
 
-        const dayName =
-            day.type === "today"
-                ? "Bugün"
-                : daysOfWeek[date.getDay()];
+        const dayName = day.type === "today" ? "Bugün" : daysOfWeek[date.getDay()];
 
         const dayString = date.toLocaleDateString(
             "tr-TR",
@@ -301,7 +283,7 @@ export async function OpenWeatherPanel(weather, latlng) {
               <div class="wp-header">
                 <a
                     class="wp-city-name"
-                    href="${cities[weather.city]?.wiki || "#"}"
+                   href="${cityData?.wiki || "#"}"
                     target="_blank"
                     rel="noopener noreferrer"
                     title="${weather.city} hakkında bilgi">
@@ -660,6 +642,15 @@ export async function OpenWeatherPanel(weather, latlng) {
     `;
 
     panel.classList.add("open");
+
+    const infoButton = panel.querySelector(".wp-city-info-btn");
+
+    infoButton?.addEventListener("click", (e) => {
+
+        e.stopPropagation();
+        OpenCityInfoPanel(weather.city);
+
+    });
 
     requestAnimationFrame(() => {
 

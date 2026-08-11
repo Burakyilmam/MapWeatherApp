@@ -1,0 +1,343 @@
+{
+  "name": "Bursa",
+  "wiki": "https://tr.wikipedia.org/wiki/Bursa",
+  "music": "/cities/Bursa/Musics/Bursanin-ufak-tefek-taslari.mp3",
+
+  "hero": {
+    "image": "/cities/Bursa/bursa.webp",
+    "title": "YEŞİL VE TARİHİN BAŞKENTİ",
+    "description": "Osmanlı İmparatorluğu'nun ilk başkenti Bursa; tarihi hanları, külliyeleri, doğal güzellikleri, Uludağ'ı ve zengin mutfağıyla Türkiye'nin en önemli kültür şehirlerinden biridir."
+  },
+
+  "facts": {
+    "plateCode": "16",
+    "postalCode": "16000",
+    "population": "3.2M",
+    "populationRank": "4",
+    "districtCount": "17",
+    "populationDensity": "302 kişi/km²",
+    "region": "Marmara",
+    "area": "10.882 km²",
+    "altitude": "155 m",
+    "highestPoint": "2.543 m",
+    "mainSectors": "Otomotiv, Tekstil, Mobilya",
+    "mainAgriculturalProducts": "Zeytin, Şeftali"
+  },
+
+  "districts": [
+    {
+      "name": "Büyükorhan",
+      "population": "9.148",
+      "image": "/cities/Bursa/Districts/buyukorhan.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Büyükorhan"
+    },
+    {
+      "name": "Gemlik",
+      "population": "124.400",
+      "image": "/cities/Bursa/Districts/gemlik.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Gemlik"
+    },
+    {
+      "name": "Gürsu",
+      "population": "105.799",
+      "image": "/cities/Bursa/Districts/gursu.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Gürsu"
+    },
+    {
+      "name": "Harmancık",
+      "population": "6.089",
+      "image": "/cities/Bursa/Districts/harmancik.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Harmancık"
+    },
+    {
+      "name": "İnegöl",
+      "population": "306.004",
+      "image": "/cities/Bursa/Districts/inegol.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/İnegöl"
+    },
+    {
+      "name": "İznik",
+      "population": "45.510",
+      "image": "/cities/Bursa/Districts/iznik.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/İznik"
+    },
+    {
+      "name": "Karacabey",
+      "population": "86.543",
+      "image": "/cities/Bursa/Districts/karacabey.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Karacabey"
+    },
+    {
+      "name": "Keles",
+      "population": "10.939",
+      "image": "/cities/Bursa/Districts/keles.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Keles"
+    },
+    {
+      "name": "Kestel",
+      "population": "77.374",
+      "image": "/cities/Bursa/Districts/kestel.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Kestel"
+    },
+    {
+      "name": "Mudanya",
+      "population": "112.225",
+      "image": "/cities/Bursa/Districts/mudanya.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Mudanya"
+    },
+    {
+      "name": "Mustafakemalpaşa",
+      "population": "103.652",
+      "image": "/cities/Bursa/Districts/mustafakemalpasa.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Mustafakemalpaşa"
+    },
+    {
+      "name": "Nilüfer",
+      "population": "578.059",
+      "image": "/cities/Bursa/Districts/nilufer.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Nilüfer,_Bursa"
+    },
+    {
+      "name": "Orhaneli",
+      "population": "18.963",
+      "image": "/cities/Bursa/Districts/orhaneli.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Orhaneli"
+    },
+    {
+      "name": "Orhangazi",
+      "population": "81.997",
+      "image": "/cities/Bursa/Districts/orhangazi.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Orhangazi"
+    },
+    {
+      "name": "Osmangazi",
+      "population": "886.111",
+      "image": "/cities/Bursa/Districts/osmangazi.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Osmangazi"
+    },
+    {
+      "name": "Yenişehir",
+      "population": "55.609",
+      "image": "/cities/Bursa/Districts/yenisehir.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Yenişehir,_Bursa"
+    },
+    {
+      "name": "Yıldırım",
+      "population": "654.589",
+      "image": "/cities/Bursa/Districts/yildirim.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Yıldırım,_Bursa"
+    }
+  ],
+
+  "places": [
+    {
+      "name": "Ulu Cami",
+      "image": "/cities/Bursa/Places/ulucamii.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Bursa_Ulu_Camii"
+    },
+    {
+      "name": "Koza Han",
+      "image": "/cities/Bursa/Places/kozahan.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Koza_Han"
+    },
+    {
+      "name": "Yeşil Türbe",
+      "image": "/cities/Bursa/Places/yesil-turbe.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Ye%C5%9Fil_T%C3%BCrbe"
+    },
+    {
+      "name": "Cumalıkızık",
+      "image": "/cities/Bursa/Places/cumalikizik.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Cumal%C4%B1k%C4%B1z%C4%B1k"
+    },
+    {
+      "name": "Uludağ",
+      "image": "/cities/Bursa/Places/uludag.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Uluda%C4%9F"
+    },
+    {
+      "name": "Tophane",
+      "image": "/cities/Bursa/Places/tophane.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Tophane_Saat_Kulesi_(Bursa)"
+    },
+    {
+      "name": "Muradiye Külliyesi",
+      "image": "/cities/Bursa/Places/muradiye-kulliyesi.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Muradiye_K%C3%BClliyesi"
+    },
+    {
+      "name": "Mudanya",
+      "image": "/cities/Bursa/Places/mudanya.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Mudanya"
+    },
+    {
+      "name": "Gölyazı",
+      "image": "/cities/Bursa/Places/golyazi.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Gölyazı"
+    },
+    {
+      "name": "Irgandı Köprüsü",
+      "image": "/cities/Bursa/Places/irgandi-koprusu.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Irgandı_Köprüsü"
+    },
+    {
+      "name": "Suuçtu Şeleasi",
+      "image": "/cities/Bursa/Places/suuctu-selalesi.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Suuçtu_Şelalesi"
+    },
+    {
+      "name": "Uluabat Gölü",
+      "image": "/cities/Bursa/Places/uluabat-golu.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Uluabat_Gölü"
+    },
+    {
+      "name": "Oylat",
+      "image": "/cities/Bursa/Places/oylat-kaplicalari.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Oylat_Mağarası"
+    }
+  ],
+
+  "foods": [
+    {
+      "name": "İskender Kebabı",
+      "image": "/cities/Bursa/Foods/iskender.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/%C4%B0skender_kebap"
+    },
+    {
+      "name": "İnegöl Köfte",
+      "image": "/cities/Bursa/Foods/inegol-kofte.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/%C4%B0neg%C3%B6l_k%C3%B6fte"
+    },
+    {
+      "name": "Kestane Şekeri",
+      "image": "/cities/Bursa/Foods/kestane-sekeri.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Kestane_%C5%9Fekeri"
+    },
+    {
+      "name": "Pideli Köfte",
+      "image": "/cities/Bursa/Foods/pideli-kofte.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Pideli_k%C3%B6fte"
+    },
+    {
+      "name": "Cantık",
+      "image": "/cities/Bursa/Foods/cantik.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Cant%C4%B1k"
+    },
+    {
+      "name": "Kemalpaşa Tatlısı",
+      "image": "/cities/Bursa/Foods/kemalpasa-tatlisi.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Kemalpaşa_tatlısı"
+    },
+    {
+      "name": "Bağdat Hurma Tatlısı",
+      "image": "/cities/Bursa/Foods/bagdat-hurma-tatlisi.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Bağdat_hurma_tatlısı"
+    },
+    {
+      "name": "Muradiye Çorbası",
+      "image": "/cities/Bursa/Foods/muradiye-corbasi.webp",
+      "wiki": "https://rota.bursa.com.tr/ko/blog/bursanin-yerel-lezzetleri-4/muradiye-corbasi-46"
+    }
+  ],
+
+  "history": [
+    {
+      "date": "MÖ 185",
+      "title": "Prusias ad Olympum",
+      "wiki": "https://tr.wikipedia.org/wiki/Bursa"
+    },
+    {
+      "date": "1326",
+      "title": "Osmanlı Fethi ve Başkent Olması",
+      "wiki": "https://tr.wikipedia.org/wiki/Bursa%27n%C4%B1n_fethi"
+    },
+    {
+      "date": "1419",
+      "title": "Yeşil Külliyesi'nin Tamamlanması",
+      "wiki": "https://tr.wikipedia.org/wiki/Ye%C5%9Fil_K%C3%BClliyesi"
+    },
+    {
+      "date": "1855",
+      "title": "Büyük Bursa Depremi",
+      "wiki": "https://tr.wikipedia.org/wiki/1855_Bursa_depremleri"
+    },
+    {
+      "date": "1920",
+      "title": "İşgal Dönemi",
+      "wiki": "https://tr.wikipedia.org/wiki/Bursa%27n%C4%B1n_i%C5%9Fgali"
+    },
+    {
+      "date": "1922",
+      "title": "Bursa'nın Kurtuluşu",
+      "wiki": "https://tr.wikipedia.org/wiki/Bursa%27n%C4%B1n_kurtulu%C5%9Fu"
+    },
+    {
+      "date": "2014",
+      "title": "UNESCO Dünya Mirası",
+      "wiki": "https://tr.wikipedia.org/wiki/Bursa_ve_Cumal%C4%B1k%C4%B1z%C4%B1k"
+    }
+  ],
+
+  "people": [
+    {
+      "name": "Osman Gazi",
+      "role": "Osmanlı Devleti'nin Kurucusu",
+      "image": "/cities/Bursa/Peoples/osmangazi.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Osman_Gazi"
+    },
+    {
+      "name": "Orhan Gazi",
+      "role": "Osmanlı Sultanı",
+      "image": "/cities/Bursa/Peoples/orhangazi.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Orhan_Gazi"
+    },
+    {
+      "name": "I. Murad",
+      "role": "Osmanlı Sultanı",
+      "image": "/cities/Bursa/Peoples/murad-i.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/I._Murad"
+    },
+    {
+      "name": "Yıldırım Bayezid",
+      "role": "Osmanlı Sultanı",
+      "image": "/cities/Bursa/Peoples/yildirim-bayezid.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/I._Bayezid"
+    },
+    {
+      "name": "Çelebi Mehmed",
+      "role": "Osmanlı Sultanı",
+      "image": "/cities/Bursa/Peoples/celebi-mehmed.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/I._Mehmed"
+    },
+    {
+      "name": "Sabiha Gökçen",
+      "role": "Türkiye'nin İlk Kadın Pilotu",
+      "image": "/cities/Bursa/Peoples/sabiha-gokcen.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Sabiha_G%C3%B6k%C3%A7en"
+    },
+    {
+      "name": "Celal Bayar",
+      "role": "Türkiye'nin 3. Cumhurbaşkanı",
+      "image": "/cities/Bursa/Peoples/celal-bayar.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Celal_Bayar"
+    },
+    {
+      "name": "Müzeyyen Senar",
+      "role": "Sanatçı",
+      "image": "/cities/Bursa/Peoples/muzeyyen-senar.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Müzeyyen_Senar"
+    },
+    {
+      "name": "Zeki Müren",
+      "role": "Sanatçı",
+      "image": "/cities/Bursa/Peoples/zeki-muren.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Zeki_M%C3%BCren"
+    },
+    {
+      "name": "Ata Demirer",
+      "role": "Sanatçı",
+      "image": "/cities/Bursa/Peoples/ata-demirer.webp",
+      "wiki": "https://tr.wikipedia.org/wiki/Ata_Demirer"
+    }
+  ]
+}

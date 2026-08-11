@@ -1,6 +1,4 @@
-﻿import { cities } from "./Cities.js";
-
-let cityAudio = null;
+﻿let cityAudio = null;
 let audioProgressAnimation = null;
 
 let currentVolume = 0.35;
@@ -10,22 +8,48 @@ let keydownHandler = null;
 let wheelHandler = null;
 
 
-export function StartCityMusic(cityName) {
+async function GetCityMusic(cityName) {
+
+    try {
+
+        const response = await fetch(`/data/${cityName}.json`);
+
+        if (!response.ok) {
+            console.error(`${cityName} JSON verisi yüklenemedi.`);
+            return null;
+        }
+
+        const city = await response.json();
+
+        return city.music || null;
+
+    }
+    catch (error) {
+        console.error(`${cityName} müzik verisi alınırken hata oluştu:`, error);
+        return null;
+    }
+}
+
+
+export async function StartCityMusic(cityName) {
 
     StopCityMusic();
 
-    const city = cities[cityName];
+    const music = await GetCityMusic(cityName);
 
-    if (!city?.music) return;
+    if (!music) return;
 
     const progress = document.querySelector(".wp-city-music-progress");
     const progressFill = document.querySelector(".wp-city-music-progress-fill");
     const muteButton = document.querySelector(".wp-city-music-mute");
     const card = document.querySelector(".wp-left-card");
 
-    if (!progress || !progressFill || !muteButton || !card) return;
+    if (!progress || !progressFill || !muteButton || !card) {
+        return;
+    }
 
-    cityAudio = new Audio(city.music);
+
+    cityAudio = new Audio(music);
     cityAudio.volume = currentVolume;
     cityAudio.loop = true;
 
@@ -33,8 +57,8 @@ export function StartCityMusic(cityName) {
 
         if (!cityAudio) return;
 
-        if (cityAudio.muted || cityAudio.volume === 0) {
 
+        if (cityAudio.muted || cityAudio.volume === 0) {
             muteButton.textContent = "🔇";
             muteButton.title = "Sesi aç";
 
@@ -46,7 +70,6 @@ export function StartCityMusic(cityName) {
 
         }
         else if (cityAudio.volume < 0.7) {
-
             muteButton.textContent = "🔉";
             muteButton.title = "Sesi kapat";
 
@@ -58,10 +81,16 @@ export function StartCityMusic(cityName) {
         }
     }
 
+
     function UpdateProgress() {
 
-        if (cityAudio && Number.isFinite(cityAudio.duration) && cityAudio.duration > 0) {
+        if (!cityAudio) {
+            audioProgressAnimation = null;
+            return;
+        }
 
+
+        if (Number.isFinite(cityAudio.duration) && cityAudio.duration > 0) {
             const percentage = (cityAudio.currentTime / cityAudio.duration) * 100;
             progressFill.style.width = `${percentage}%`;
         }
@@ -70,43 +99,52 @@ export function StartCityMusic(cityName) {
     }
 
 
-    progress.addEventListener("click", (e) => {
+    progress.addEventListener(
+        "click",
+        (e) => {
 
-        e.stopPropagation();
+            e.stopPropagation();
 
-        if (!cityAudio || !Number.isFinite(cityAudio.duration)) return;
+            if (!cityAudio || !Number.isFinite(cityAudio.duration)) {
+                return;
+            }
 
-        const rect = progress.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const percentage = Math.max(0, Math.min(1, x / rect.width));
+            const rect = progress.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const percentage = Math.max(0, Math.min(1, x / rect.width));
 
-        cityAudio.currentTime = percentage * cityAudio.duration;
-    });
-
-
-    muteButton.addEventListener("click", (e) => {
-
-        e.stopPropagation();
-
-        if (!cityAudio) return;
-
-        if (cityAudio.muted || cityAudio.volume === 0) {
-
-            cityAudio.muted = false;
-
-            currentVolume = previousVolume > 0 ? previousVolume : 0.35;
-
-            cityAudio.volume = currentVolume;
+            cityAudio.currentTime = percentage * cityAudio.duration;
 
         }
-        else {
+    );
 
-            previousVolume = cityAudio.volume;
-            cityAudio.muted = true;
+
+    muteButton.addEventListener(
+        "click",
+        (e) => {
+
+            e.stopPropagation();
+
+            if (!cityAudio)
+                return;
+
+
+            if (cityAudio.muted || cityAudio.volume === 0) {
+                cityAudio.muted = false;
+                currentVolume = previousVolume > 0 ? previousVolume : 0.35;
+                cityAudio.volume = currentVolume;
+            }
+            else {
+
+                previousVolume = cityAudio.volume;
+                cityAudio.muted = true;
+            }
+
+            UpdateVolumeIcon();
+
         }
+    );
 
-        UpdateVolumeIcon();
-    });
 
     keydownHandler = (e) => {
 
@@ -117,7 +155,9 @@ export function StartCityMusic(cityName) {
             return;
         }
 
+
         if (!cityAudio) return;
+
 
         if (e.code === "Space") {
 
@@ -125,17 +165,23 @@ export function StartCityMusic(cityName) {
 
             if (cityAudio.paused) {
 
-                cityAudio.play().catch(err => {
-                    console.log("Audio:", err);
-                });
+                cityAudio
+                    .play()
+                    .catch(err => {
+
+                        console.log("Audio:", err);
+                    });
 
             }
             else {
+
                 cityAudio.pause();
+
             }
 
             return;
         }
+
 
         if (e.code === "ArrowLeft") {
 
@@ -151,10 +197,15 @@ export function StartCityMusic(cityName) {
 
             e.preventDefault();
 
-            if (!Number.isFinite(cityAudio.duration)) return;
+            if (!Number.isFinite(cityAudio.duration)) {
+                return;
+            }
 
             cityAudio.currentTime = Math.min(cityAudio.duration, cityAudio.currentTime + 5);
+
+            return;
         }
+
 
         if (e.code === "ArrowUp") {
 
@@ -164,17 +215,19 @@ export function StartCityMusic(cityName) {
 
             cityAudio.muted = false;
             cityAudio.volume = newVolume;
-
             currentVolume = newVolume;
+
 
             if (newVolume > 0) {
                 previousVolume = newVolume;
             }
 
+
             UpdateVolumeIcon();
 
             return;
         }
+
 
         if (e.code === "ArrowDown") {
 
@@ -184,8 +237,8 @@ export function StartCityMusic(cityName) {
 
             cityAudio.muted = false;
             cityAudio.volume = newVolume;
-
             currentVolume = newVolume;
+
 
             if (newVolume > 0) {
                 previousVolume = newVolume;
@@ -205,7 +258,6 @@ export function StartCityMusic(cityName) {
             e.preventDefault();
 
             const number = Number(e.key);
-
             const percentage = number / 10;
 
             cityAudio.currentTime = cityAudio.duration * percentage;
@@ -213,21 +265,18 @@ export function StartCityMusic(cityName) {
             return;
         }
 
+
         if (e.code === "KeyM" && !e.ctrlKey && !e.altKey && !e.metaKey) {
+
             e.preventDefault();
 
             if (cityAudio.muted || cityAudio.volume === 0) {
-
                 cityAudio.muted = false;
-
                 currentVolume = previousVolume > 0 ? previousVolume : 0.35;
-
                 cityAudio.volume = currentVolume;
             }
             else {
-
                 previousVolume = cityAudio.volume;
-
                 cityAudio.muted = true;
             }
 
@@ -237,8 +286,8 @@ export function StartCityMusic(cityName) {
         }
     };
 
-    document.addEventListener("keydown", keydownHandler);
 
+    document.addEventListener("keydown", keydownHandler);
 
     wheelHandler = (e) => {
 
@@ -247,15 +296,14 @@ export function StartCityMusic(cityName) {
         e.preventDefault();
         e.stopPropagation();
 
+
         const step = 0.05;
 
         if (e.deltaY < 0) {
-
             currentVolume = Math.min(1, cityAudio.volume + step);
 
         }
         else {
-
             currentVolume = Math.max(0, cityAudio.volume - step);
         }
 
@@ -269,43 +317,52 @@ export function StartCityMusic(cityName) {
         UpdateVolumeIcon();
     };
 
-    card.addEventListener("wheel", wheelHandler, { passive: false });
+    card.addEventListener("wheel", wheelHandler, {
+        passive: false
+    }
+    );
 
-    card.addEventListener("click", (e) => {
 
-        if (
-            e.target.closest(".wp-city-slider-arrow") ||
-            e.target.closest(".wp-city-slider-dot") ||
-            e.target.closest(".wp-city-image-title") ||
-            e.target.closest(".wp-city-name") ||
-            e.target.closest(".wp-city-music-controls")
-        ) {
-            return;
+    card.addEventListener("click",
+        (e) => {
+
+            if (e.target.closest(".wp-city-slider-arrow") ||
+                e.target.closest(".wp-city-slider-dot") ||
+                e.target.closest(".wp-city-image-title") ||
+                e.target.closest(".wp-city-name") ||
+                e.target.closest(".wp-city-music-controls") ||
+                e.target.closest(".wp-city-info-btn")) {
+                return;
+            }
+
+            if (!cityAudio) return;
+
+            if (cityAudio.paused) {
+
+                cityAudio
+                    .play()
+                    .catch(err => {
+
+                        console.log("Audio:", err);
+                    });
+
+            }
+            else {
+
+                cityAudio.pause();
+
+            }
         }
+    );
 
-        if (!cityAudio)
-            return;
-
-        if (cityAudio.paused) {
-
-            cityAudio.play().catch(err => {
-                console.log("Audio:", err);
-            });
-
-        }
-        else {
-
-            cityAudio.pause();
-        }
-    });
 
     UpdateVolumeIcon();
 
-    cityAudio.play().catch(err => {
-
-        console.log("Tarayıcı otomatik oynatmayı engelledi:", err);
-
-    });
+    cityAudio
+        .play()
+        .catch(err => {
+            console.log("Tarayıcı otomatik oynatmayı engelledi:", err);
+        });
 
     UpdateProgress();
 }
@@ -314,41 +371,40 @@ export function StartCityMusic(cityName) {
 export function StopCityMusic() {
 
     if (audioProgressAnimation) {
-
         cancelAnimationFrame(audioProgressAnimation);
-
         audioProgressAnimation = null;
     }
-
 
     if (keydownHandler) {
 
         document.removeEventListener("keydown", keydownHandler);
-
         keydownHandler = null;
     }
 
-
-    const card =
-        document.querySelector(".wp-left-card");
+    const card = document.querySelector(".wp-left-card");
 
     if (card && wheelHandler) {
 
         card.removeEventListener("wheel", wheelHandler);
-
         wheelHandler = null;
     }
 
 
-    if (cityAudio) {
+    const progressFill = document.querySelector(".wp-city-music-progress-fill");
 
+
+    if (progressFill) {
+        progressFill.style.width = "0%";
+    }
+
+
+    if (cityAudio) {
         if (!cityAudio.muted && cityAudio.volume > 0) {
             currentVolume = cityAudio.volume;
         }
 
         cityAudio.pause();
         cityAudio.currentTime = 0;
-
         cityAudio = null;
     }
 }
