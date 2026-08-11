@@ -1,6 +1,11 @@
-<h1>Haritalı Hava Durumu Uygulaması</h1>
+<h1>Haritalı Hava Durumu ve Şehir Rehberi Uygulaması</h1>
 
-<p>Türkiye genelindeki illerin hava durumu verilerini (sıcaklık, rüzgar, yağış vb.) interaktif bir harita üzerinde görselleştiren; kullanıcı etkileşimiyle şehir detaylarını, hava durumu bilgilerini dinamik olarak sunan modern bir web uygulamasıdır.</p>
+<p>
+    Türkiye'nin şehirlerini interaktif bir harita üzerinde keşfetmeye olanak sağlayan;
+    hava durumu verilerinin yanı sıra şehirlerin tarihi, gezilecek yerleri,
+    yöresel yemekleri, önemli kişileri ve ilçeleri hakkında bilgiler sunan
+    modern bir web uygulamasıdır.
+</p>
 
 <h3>Kullanılan Teknolojiler</h3>
 <ul>
@@ -60,7 +65,15 @@
 
   <li>Çoklu veri katmanı desteği (Sıcaklık / Rüzgar / Yağış / Nem / Kar / Bulut / Görüş Mesafesi / Basınç)</li>
   
-  <li>Modern tasarıma sahip etkileşimli bilgi paneli</li>
+  <li>Şehir bilgilerinin JSON tabanlı dinamik veri yapısı üzerinden yönetilmesi</li>
+
+ <li>Şehirler için gezilecek yerler, ilçeler, yöresel yemekler, tarihi olaylar ve önemli kişiler hakkında detaylı bilgiler sunan bilgi paneli</li>
+
+ <li>Şehir içeriklerinde Wikipedia bağlantıları ile detaylı bilgi erişimi</li>
+
+ <li>Şehir müziklerinin dinamik olarak yüklenmesi ve kontrol edilmesi</li>
+
+ <li>Şehir içeriklerinin slider tabanlı etkileşimli gösterimi</li>
 
   <li>Hava durumuna göre dinamik video ve ortam sesi oynatan modern tooltip sistemi</li>
   
@@ -79,7 +92,19 @@
 <img width="700" height="350" alt="2" src="https://github.com/user-attachments/assets/9746f233-bee4-4dca-9ea6-f8ccfd81fe17" />
 <img width="700" height="350" alt="1" src="https://github.com/user-attachments/assets/fa22e118-6163-48bf-82e0-e19a137fdf7f" />
 <img width="700" height="350" alt="5" src="https://github.com/user-attachments/assets/3e08659c-de99-4612-9b1c-68cddba825a4" />
-<img width="700" height="350" alt="Home Page - Kişisel - Microsoft_ Edge 2026-05-19 16-41-37" src="https://github.com/user-attachments/assets/159830e5-9941-48f7-8e0c-fff8f6d6d806" />
+<img width="700" height="350" alt="havadurum" src="https://github.com/user-attachments/assets/67ddb155-ced1-4113-afe0-a689cb669cb2" />
+<img width="700" height="350" alt="panel1" src="https://github.com/user-attachments/assets/658478fc-4eb7-4c63-a5f9-4a5a6cb2d25d" />
+<img width="700" height="350" alt="p2" src="https://github.com/user-attachments/assets/dae589c9-8223-4daa-9cb7-aff27fd3053b" />
+<img width="700" height="350" alt="p3" src="https://github.com/user-attachments/assets/a7b37251-39a7-4c91-8572-a028078e006c" />
+
+<img width="700" height="350" alt="HomePage-Opera2026-08-1201-11-02-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/af5c35e5-6169-4a1f-8078-d23add673966" />
+<img width="700" height="350" alt="HomePage-Opera2026-08-1201-12-10-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/deabbdf3-461a-41e1-9c72-1494571627b6" />
+<img width="700" height="350" alt="HomePage-Opera2026-08-1201-05-07-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/7f6f29a7-4ff5-4004-a9cd-b48dcc996b75" />
+<img width="700" height="350" alt="HomePage-Opera2026-08-1201-05-59-ezgif com-video-to-gif-converter (1)" src="https://github.com/user-attachments/assets/5c307d74-d155-400d-88bd-8c8dc9ee68e8" />
+
+
+
+
 
 
 
