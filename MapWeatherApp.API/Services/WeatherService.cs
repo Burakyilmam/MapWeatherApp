@@ -4,7 +4,7 @@ using MapWeatherApp.API.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
-namespace MapWeatherApp.API
+namespace MapWeatherApp.API.Services
 {
     public class WeatherService
     {
@@ -17,6 +17,29 @@ namespace MapWeatherApp.API
             _httpClientFactory = httpClientFactory;
             _configuration = configuration;
             _context = context;
+        }
+
+        private async Task<(double TempMin, double TempMax)> GetTodayTemperatureRangeAsync(int cityId)
+        {
+            var range = await _context.Weathers
+                .Where(x =>
+                    x.CityId == cityId &&
+                    x.RecordedAt >= DateTime.Today &&
+                    x.RecordedAt < DateTime.Today.AddDays(1))
+                .GroupBy(x => x.CityId)
+                .Select(g => new
+                {
+                    TempMin = g.Min(x => x.Temperature),
+                    TempMax = g.Max(x => x.Temperature)
+                })
+                .FirstOrDefaultAsync();
+
+            if (range == null)
+            {
+                return (0, 0);
+            }
+
+            return (range.TempMin, range.TempMax);
         }
 
         public async Task<WeatherPanelDto> GetCurrentCityWeatherAsync(string city)
@@ -36,10 +59,17 @@ namespace MapWeatherApp.API
 
             if (existingCity != null)
             {
-                var latestWeather = await _context.Weathers.Where(x => x.CityId == existingCity.Id && x.RecordedAt >= DateTime.Now.AddMinutes(-30)).OrderByDescending(x => x.RecordedAt).FirstOrDefaultAsync();
+                var latestWeather = await _context.Weathers
+                    .Where(x =>
+                        x.CityId == existingCity.Id &&
+                        x.RecordedAt >= DateTime.Now.AddMinutes(-30))
+                    .OrderByDescending(x => x.RecordedAt)
+                    .FirstOrDefaultAsync();
 
                 if (latestWeather != null)
                 {
+                    var todayRange = await GetTodayTemperatureRangeAsync(existingCity.Id);
+
                     return new WeatherPanelDto
                     {
                         City = existingCity.Name,
@@ -48,11 +78,10 @@ namespace MapWeatherApp.API
                         Temperature = latestWeather.Temperature,
                         FeelsLike = latestWeather.FeelsLike,
 
-                        TempMin = latestWeather.TempMin,
-                        TempMax = latestWeather.TempMax,
+                        TempMin = todayRange.TempMin,
+                        TempMax = todayRange.TempMax,
 
                         Humidity = latestWeather.Humidity,
-
                         Pressure = latestWeather.Pressure,
 
                         WindSpeed = latestWeather.WindSpeed,
@@ -96,7 +125,7 @@ namespace MapWeatherApp.API
 
             if (weatherData == null)
             {
-                throw new Exception("Hava durumu verisi çözümlenemedi.");
+                throw new Exception("Hava durumu verisi çözümlenmedi.");
             }
 
             if (weatherData.Weather == null || !weatherData.Weather.Any())
@@ -111,7 +140,6 @@ namespace MapWeatherApp.API
                 throw new Exception("Hava durumu detay bilgisi bulunamadı.");
             }
 
-
             if (existingCity == null)
             {
                 existingCity = new City
@@ -123,7 +151,6 @@ namespace MapWeatherApp.API
                     Country = weatherData.Sys?.Country ?? "Türkiye",
 
                     Latitude = weatherData.Coordinate.Lat,
-
                     Longitude = weatherData.Coordinate.Lon
                 };
 
@@ -141,7 +168,6 @@ namespace MapWeatherApp.API
                 FeelsLike = weatherData.Main.FeelsLike,
 
                 TempMin = weatherData.Main.TempMin,
-
                 TempMax = weatherData.Main.TempMax,
 
                 Humidity = weatherData.Main.Humidity,
@@ -151,23 +177,18 @@ namespace MapWeatherApp.API
                 Visibility = weatherData.Visibility,
 
                 WindSpeed = weatherData.Wind.Speed,
-
                 WindDegree = weatherData.Wind.Deg,
 
                 ConditionMain = currentWeather.Main,
-
                 ConditionDescription = currentWeather.Description,
-
                 ConditionIcon = currentWeather.Icon,
 
                 Cloudiness = weatherData.Clouds.All,
 
                 RainVolume = weatherData.Rain?.OneHour ?? 0,
-
                 SnowVolume = weatherData.Snow?.OneHour ?? 0,
 
                 Sunrise = weatherData.Sys.Sunrise,
-
                 Sunset = weatherData.Sys.Sunset,
 
                 RecordedAt = DateTime.Now
@@ -177,26 +198,24 @@ namespace MapWeatherApp.API
 
             await _context.SaveChangesAsync();
 
+            var todayTemperatureRange = await GetTodayTemperatureRangeAsync(existingCity.Id);
+
             return new WeatherPanelDto
             {
                 City = existingCity.Name,
-
                 Country = existingCity.Country,
 
                 Temperature = weather.Temperature,
-
                 FeelsLike = weather.FeelsLike,
 
-                TempMin = weather.TempMin,
-
-                TempMax = weather.TempMax,
+                TempMin = todayTemperatureRange.TempMin,
+                TempMax = todayTemperatureRange.TempMax,
 
                 Humidity = weather.Humidity,
 
                 Pressure = weather.Pressure,
 
                 WindSpeed = weather.WindSpeed,
-
                 WindDegree = weather.WindDegree,
 
                 Visibility = weather.Visibility,
@@ -208,11 +227,9 @@ namespace MapWeatherApp.API
                 Cloudiness = weather.Cloudiness,
 
                 RainVolume = weather.RainVolume,
-
                 SnowVolume = weather.SnowVolume,
 
                 Sunrise = weather.Sunrise,
-
                 Sunset = weather.Sunset,
 
                 UpdatedAt = weather.RecordedAt
@@ -225,7 +242,8 @@ namespace MapWeatherApp.API
 
             var apiKey = _configuration["WeatherApi:ApiKey"];
 
-            var response = await client.GetAsync($"forecast?q={Uri.EscapeDataString(city)},TR&appid={apiKey}&units=metric&lang=tr");
+            var response = await client.GetAsync($"forecast?q={Uri.EscapeDataString(city)},TR" + $"&appid={apiKey}"
+                                                 + $"&units=metric" + $"&lang=tr");
 
             var json = await response.Content.ReadAsStringAsync();
 
@@ -246,32 +264,23 @@ namespace MapWeatherApp.API
                 return new();
             }
 
-            return forecast.List.GroupBy(x => DateTimeOffset.FromUnixTimeSeconds(x.Dt).Date)
-                .Skip(1).Take(5)
+            return forecast.List
+                .GroupBy(x => DateTimeOffset.FromUnixTimeSeconds(x.Dt).Date)
+                .Skip(1)
+                .Take(5)
                 .Select(g =>
                 {
-                    var weather = g
-                .OrderBy(x =>
-                    Math.Abs(
-                        DateTimeOffset
-                            .FromUnixTimeSeconds(x.Dt)
-                            .Hour - 12))
-                .First();
+                    var weather = g.OrderBy(x => Math.Abs(DateTimeOffset.FromUnixTimeSeconds(x.Dt).Hour - 12)).First();
 
-                 return new ForecastDayDto
-                 {
-                     Date = g.Key,
-
-                     TempMin = g.Min(x => x.Main.TempMin),
-
-                     TempMax = g.Max(x => x.Main.TempMax),
-
-                     Icon = weather.Weather.First().Icon,
-
-                     Description = weather.Weather.First().Description
-                 };
-                })
-                .ToList();
+                    return new ForecastDayDto
+                    {
+                        Date = g.Key,
+                        TempMin = g.Min(x => x.Main.TempMin),
+                        TempMax = g.Max(x => x.Main.TempMax),
+                        Icon = weather.Weather.First().Icon,
+                        Description = weather.Weather.First().Description
+                    };
+                }).ToList();
         }
     }
 }
