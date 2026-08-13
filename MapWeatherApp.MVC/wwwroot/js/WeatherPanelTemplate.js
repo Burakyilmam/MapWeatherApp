@@ -1,14 +1,6 @@
 ﻿export function BuildForecastHtml(timeline) {
 
-    const daysOfWeek = [
-        "Paz",
-        "Pzt",
-        "Sal",
-        "Çar",
-        "Per",
-        "Cum",
-        "Cmt"
-    ];
+    const daysOfWeek = ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"];
 
     return timeline.map(day => {
 
@@ -27,8 +19,26 @@
             }
         );
 
+
+        const hasData = day.hasData !== false;
+        const maxTemperature = hasData ? `${Number(day.tempMax).toFixed(1)}°` : "—";
+        const minTemperature = hasData ? `${Number(day.tempMin).toFixed(1)}°` : "—";
+
+        const weatherIcon = hasData
+            ? `
+                <img
+                    class="weather-forecast-icon"
+                    src="https://openweathermap.org/img/wn/${day.icon}@2x.png"
+                />
+            `
+            : `
+                <div class="weather-forecast-no-data">
+                    —
+                </div>
+            `;
+
         return `
-            <div class="weather-forecast-day ${day.type === "today" ? "today" : ""}">
+            <div class="weather-forecast-day ${day.type === "today" ? "today" : ""} ${!hasData ? "no-data" : ""}">
 
                 <div class="weather-forecast-name">
                     ${dayName}
@@ -38,17 +48,15 @@
                     ${dayString}
                 </div>
 
-                <img
-                    class="weather-forecast-icon"
-                    src="https://openweathermap.org/img/wn/${day.icon}@2x.png"
-                />
+                ${weatherIcon}
 
                 <div class="weather-forecast-temp">
-                    ${Number(day.tempMax).toFixed(1)}°
+                    ${maxTemperature}
                 </div>
 
+
                 <div class="weather-forecast-min">
-                    ${Number(day.tempMin).toFixed(1)}°
+                    ${minTemperature}
                 </div>
 
             </div>
@@ -379,28 +387,37 @@ export function BuildWeatherPanelHtml(
 
                             <div class="wp-sun-arc-rail">
 
-                                <svg
-                                    class="wp-arc-svg-line"
-                                    viewBox="0 0 100 35">
+                            <svg
+                                class="wp-arc-svg-line"
+                                viewBox="0 0 100 35">
 
-                                    <path
-                                        d="M 5,32 Q 50,2 95,32"
-                                        fill="none"
-                                        stroke="rgba(255,255,255,0.15)"
-                                        stroke-width="1.5"
-                                        stroke-linecap="round"
-                                    />
+                                <path
+                                    d="M 5,32 Q 50,10 95,32"
+                                    fill="none"
+                                    stroke="rgba(255,255,255,0.15)"
+                                    stroke-width="1.5"
+                                    stroke-linecap="round"
+                                />
 
-                                    <circle
-                                        cx="${sunPosition.x}"
-                                        cy="${sunPosition.y}"
-                                        r="3"
-                                        fill="#ffb74d"
-                                    />
+                                <text
+                                    x="${sunPosition.x}"
+                                    y="${sunPosition.y}"
+                                    text-anchor="middle"
+                                    dominant-baseline="middle"
+                                    font-size="6"
+                                    style="
+                                        fill: ${sunPosition.color};
+                                        filter: drop-shadow(
+                                            0 0 2px ${sunPosition.color}
+                                        );
+                                    "
+                                >
+                                    ${sunPosition.icon}
+                                </text>
 
-                                </svg>
+                            </svg>
 
-                            </div>
+                        </div>
 
                         </div>
 

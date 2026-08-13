@@ -100,22 +100,32 @@ namespace MapWeatherApp.API.Controllers
         [HttpGet("{city}/history")]
         public async Task<IActionResult> GetHistoryWeather(string city)
         {
-            var history = await _context.Weathers
-                .Include(x => x.City)
-                .Where(x => x.City.Name == city)
+            var cityEntity = await _context.Cities.FirstOrDefaultAsync(x => x.Name == city);
+
+            if (cityEntity == null)
+            {
+                return NotFound("Şehir bulunamadı.");
+            }
+
+            var startDate = DateTime.Today.AddDays(-5);
+
+            var endDate = DateTime.Today;
+
+            var historyData = await _context.Weathers
+                .Where(x =>
+                    x.CityId == cityEntity.Id &&
+                    x.RecordedAt >= startDate &&
+                    x.RecordedAt < endDate)
                 .GroupBy(x => x.RecordedAt.Date)
-                .Where(g => g.Key < DateTime.Today)
-                .OrderByDescending(g => g.Key)
-                .Take(5)
                 .Select(g => new
                 {
                     date = g.Key,
 
                     avgTemperature = g.Average(x => x.Temperature),
 
-                    tempMin = g.Min(x => x.TempMin),
+                    tempMin = g.Min(x => x.Temperature),
 
-                    tempMax = g.Max(x => x.TempMax),
+                    tempMax = g.Max(x => x.Temperature),
 
                     humidity = g.Average(x => x.Humidity),
 
@@ -131,7 +141,45 @@ namespace MapWeatherApp.API.Controllers
                 })
                 .ToListAsync();
 
-            return Ok(history);
+
+            var result = new List<object>();
+
+            for (int i = 5; i >= 1; i--)
+            {
+                var date = DateTime.Today.AddDays(-i);
+                var dayData = historyData.FirstOrDefault(x => x.date == date);
+
+                if (dayData != null)
+                {
+                    result.Add(new
+                    {
+                        date = date,
+                        avgTemperature = dayData.avgTemperature,
+                        tempMin = dayData.tempMin,
+                        tempMax = dayData.tempMax,
+                        humidity = dayData.humidity,
+                        icon = dayData.icon,
+                        description = dayData.description,
+                        hasData = true
+                    });
+                }
+                else
+                {
+                    result.Add(new
+                    {
+                        date = date,
+                        avgTemperature = (double?)null,
+                        tempMin = (double?)null,
+                        tempMax = (double?)null,
+                        humidity = (double?)null,
+                        icon = (string?)null,
+                        description = "Veri yok",
+                        hasData = false
+                    });
+                }
+            }
+
+            return Ok(result);
         }
 
         [HttpGet("{city}/forecast")]

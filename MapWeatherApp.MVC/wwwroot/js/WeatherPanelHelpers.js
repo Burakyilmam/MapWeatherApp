@@ -1,5 +1,7 @@
 ﻿export function GetWeatherTip(weather) {
+
     const temp = weather.temperature;
+
     if ((weather.rainVolume || 0) > 0) return "Şemsiye almayı unutmayın";
     if (weather.windSpeed * 3.6 >= 45) return "Şiddetli rüzgara karşı dikkatli olun";
     if (weather.visibility <= 2000) return "Görüş mesafesi çok düşük";
@@ -17,6 +19,7 @@
     return "Buzlanmaya dikkat ediniz";
 }
 
+
 export function GetWindDirection(deg) {
     if (deg >= 337.5 || deg < 22.5) return "K";
     if (deg < 67.5) return "KD";
@@ -28,39 +31,76 @@ export function GetWindDirection(deg) {
     return "KB";
 }
 
+
 export function BuildWeatherTimeline(history, forecast, weather) {
+
     const timeline = [];
 
-    [...history].reverse().forEach(day => {
+
+    // Geçmiş 5 gün
+    history.forEach(day => {
+
         timeline.push({
+
             date: day.date,
+
             icon: day.icon,
+
             tempMin: day.tempMin,
             tempMax: day.tempMax,
+
             humidity: day.humidity,
+
+            hasData: day.hasData,
+
             type: "history"
+
         });
+
     });
 
+
+    // Bugün
     timeline.push({
+
         date: new Date(),
+
         icon: weather.conditionIcon,
+
         tempMin: weather.tempMin,
         tempMax: weather.tempMax,
+
         humidity: weather.humidity,
+
+        hasData: true,
+
         type: "today"
+
     });
 
+
+    // Gelecek 5 gün
     forecast.forEach(day => {
+
         timeline.push({
+
             date: day.date,
+
             icon: day.icon,
+
             tempMin: day.tempMin,
             tempMax: day.tempMax,
+
             humidity: 0,
+
+            hasData: true,
+
             type: "forecast"
+
         });
+
     });
+
 
     return timeline;
 }

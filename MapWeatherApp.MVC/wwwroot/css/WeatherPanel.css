@@ -713,6 +713,16 @@
         display: none;
     }
 
+.weather-forecast-no-data {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.25);
+}
+
 .weather-forecast-day {
     min-width: 78px;
     flex: 1;

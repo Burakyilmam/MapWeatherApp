@@ -32,16 +32,57 @@ export function GetSunPosition(sunrise, sunset) {
     let x = 5;
     let y = 32;
 
+    let progress = 0;
+    let icon = "🌥️";
+    let color = "#fff3a6";
+    let isNight = false;
+
     if (currentMin >= sunriseMin && currentMin <= sunsetMin) {
 
-        const percentage = (currentMin - sunriseMin) / (sunsetMin - sunriseMin);
+        progress = (currentMin - sunriseMin) / (sunsetMin - sunriseMin);
 
-        x = 5 + (90 * percentage);
-        y = 32 - (60 * percentage * (1 - percentage));
+        x = 5 + (90 * progress);
+        y = 32 - (44 * progress * (1 - progress));
+
+        if (progress < 0.15) {
+            icon = "🌥️";
+            color = "#fff3a6";
+        }
+        else if (progress < 0.40) {
+            icon = "☀️";
+            color = "#ffeb3b";
+        }
+        else if (progress < 0.65) {
+            icon = "☀️";
+            color = "#ffd54f";
+        }
+        else if (progress < 0.85) {
+            icon = "🟠";
+            color = "#ff9800";
+        }
+        else {
+            icon = "🔴";
+            color = "#e65100";
+        }
+
     }
-    else if (currentMin > sunsetMin) {
+    else {
+
         x = 95;
+        y = 32;
+
+        progress = 1;
+        icon = "🌙";
+        color = "#b0bec5";
+        isNight = true;
     }
 
-    return { x, y };
+    return {
+        x,
+        y,
+        progress,
+        icon,
+        color,
+        isNight
+    };
 }
