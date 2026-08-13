@@ -1,22 +1,121 @@
 ﻿export function GetPressureData(pressure) {
 
     const value = pressure || 1012;
-    const percentage = Math.max(0, Math.min(1, (value - 960) / 100));
+    const percentage = Math.max(        0,        Math.min(1, (value - 960) / 100)    );
     const rotation = -90 + (percentage * 180);
 
     let status = "Normal";
     let statusClass = "normal";
+    let color = "#ffffff";
 
-    if (value < 1000) {
+
+    // 1 — Açık mavi
+    if (value < 970) {
+
         status = "Düşük";
         statusClass = "low";
-    }
-    else if (value > 1020) {
-        status = "Yüksek";
-        statusClass = "high";
+        color = "#81d4fa";
+
     }
 
-    return { value, percentage, rotation, status, statusClass };
+    // 2 — Mavi
+    else if (value < 980) {
+
+        status = "Düşük";
+        statusClass = "low";
+        color = "#29b6f6";
+
+    }
+
+    // 3 — Açık yeşil
+    else if (value < 990) {
+
+        status = "Düşük";
+        statusClass = "low";
+        color = "#81c784";
+
+    }
+
+    // 4 — Yeşil
+    else if (value < 1000) {
+
+        status = "Düşük";
+        statusClass = "low";
+        color = "#4caf50";
+
+    }
+
+    // 5 — Beyaz
+    else if (value < 1010) {
+
+        status = "Normal";
+        statusClass = "normal";
+        color = "#ffffff";
+
+    }
+
+    // 6 — Sarı
+    else if (value < 1020) {
+
+        status = "Yüksek";
+        statusClass = "high";
+        color = "#ffeb3b";
+
+    }
+
+    // 7 — Koyu sarı
+    else if (value < 1030) {
+
+        status = "Yüksek";
+        statusClass = "high";
+        color = "#ffc107";
+
+    }
+
+    // 8 — Turuncu
+    else if (value < 1040) {
+
+        status = "Yüksek";
+        statusClass = "high";
+        color = "#ff9800";
+
+    }
+
+    // 9 — Koyu turuncu
+    else if (value < 1050) {
+
+        status = "Yüksek";
+        statusClass = "high";
+        color = "#ff5722";
+
+    }
+
+    // 10 — Kırmızı
+    else if (value < 1060) {
+
+        status = "Yüksek";
+        statusClass = "high";
+        color = "#f44336";
+
+    }
+
+    // 11 — Koyu kırmızı
+    else {
+
+        status = "Yüksek";
+        statusClass = "high";
+        color = "#b71c1c";
+
+    }
+
+    return {
+        value,
+        percentage,
+        rotation,
+        status,
+        statusClass,
+        color
+    };
 }
 
 export function GetSunPosition(sunrise, sunset) {

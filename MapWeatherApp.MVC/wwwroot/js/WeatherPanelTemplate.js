@@ -426,50 +426,56 @@ export function BuildWeatherPanelHtml(
 
                     <div class="wp-right-widget">
 
-                        <div class="wp-pressure-gauge">
+                       <div class="wp-pressure-gauge">
 
-                            <svg
-                                class="wp-pressure-svg"
-                                viewBox="0 0 120 70">
+                        <svg
+                            class="wp-pressure-svg"
+                            viewBox="0 0 120 70">
 
-                                <path
-                                    d="M15 60 A45 45 0 0 1 105 60"
-                                    class="pressure-track"
-                                />
+                            <path
+                                d="M15 60 A45 45 0 0 1 105 60"
+                                class="pressure-track"
+                            />
 
-                                <path
-                                    d="M15 60 A45 45 0 0 1 105 60"
-                                    class="pressure-progress"
-                                    style="
-                                        stroke-dasharray:142;
-                                        stroke-dashoffset:${142 - (142 * pressure.percentage)};
-                                    "
-                                />
-
-                            </svg>
-
-
-                            <div
-                                class="wp-pressure-needle"
+                            <path
+                                d="M15 60 A45 45 0 0 1 105 60"
+                                class="pressure-progress"
                                 style="
-                                    transform:translateX(-50%) rotate(${pressure.rotation}deg)
-                                ">
-                            </div>
+                                    stroke: ${pressure.color};
+                                    stroke-dasharray: 142;
+                                    stroke-dashoffset: ${142 - (142 * pressure.percentage)};
+                                "
+                           />
 
+                        </svg>
 
-                            <div class="wp-pressure-center"></div>
-
-
-                            <div class="wp-pressure-value ${pressure.statusClass}">
-                                ${pressure.value}
-                            </div>
-
-
-                            <div class="wp-pressure-status ${pressure.statusClass}">
-                                ${pressure.status}
-                            </div>
-
+                        <div
+                            class="wp-pressure-needle"
+                            style="
+                                transform:translateX(-50%) rotate(${pressure.rotation}deg);
+                                background: ${pressure.color};
+                            ">
                         </div>
+
+                        <div class="wp-pressure-center"></div>
+
+                        <div
+                            class="wp-pressure-value"
+                            style="
+                                color: ${pressure.color};
+                            ">
+                            ${Math.round(pressure.value)}
+                        </div>
+
+                        <div
+                            class="wp-pressure-status"
+                            style="
+                                color: ${pressure.color};
+                            ">
+                            ${pressure.status}
+                        </div>
+
+                    </div>
 
                     </div>
 
